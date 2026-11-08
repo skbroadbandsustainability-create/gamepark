@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#1d2547" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="팽이 배틀" />
+  <link rel="icon" type="image/png" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet" />
+  <title>팽이 배틀</title>
+  <style>
+    :root {
+      --p1: #4da3ff; --p2: #ff5d73; --gold: #ffd36b;
+      --ink: #1f2440; --card: rgba(255,255,255,0.94);
+      --safeT: env(safe-area-inset-top, 0px); --safeB: env(safe-area-inset-bottom, 0px);
+    }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body {
+      margin: 0; height: 100%; overflow: hidden; background: #1d2547; color: var(--ink);
+      font-family: 'Jua', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+      touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
+      overscroll-behavior: none;
+    }
+    [hidden] { display: none !important; }
+    button { font-family: inherit; border: 0; cursor: pointer; color: inherit; }
+    #gl, #overlay, #touch, #floats { position: fixed; inset: 0; width: 100%; height: 100%; }
+    #gl { display: block; }
+    #overlay, #floats { pointer-events: none; }
+    #floats { overflow: hidden; }
+    .p1c { color: var(--p1); } .p2c { color: var(--p2); }
+
+    /* ---------- 공통 버튼 ---------- */
+    .big {
+      display: block; width: 100%; padding: 16px; margin: 10px 0; border-radius: 22px; font-size: 22px;
+      background: #fff; box-shadow: 0 5px 0 rgba(0,0,0,0.18); transition: transform .08s;
+    }
+    .big:active { transform: translateY(3px); box-shadow: 0 2px 0 rgba(0,0,0,0.18); }
+    .big.ai { background: linear-gradient(135deg, #8fd0ff, #4da3ff); color: #fff; }
+    .big.pvp { background: linear-gradient(135deg, #ffb0bd, #ff5d73); color: #fff; }
+    .big.up { background: linear-gradient(135deg, #ffe7a3, #ffb84d); }
+    .big.go { background: linear-gradient(135deg, #ffe07a, #ff9a3d); color: #fff; font-size: 24px; }
+    .big:disabled { opacity: .45; }
+    .small { padding: 10px 14px; border-radius: 16px; background: rgba(255,255,255,0.9); font-size: 16px; box-shadow: 0 3px 0 rgba(0,0,0,0.15); }
+    .coins { background: rgba(0,0,0,0.35); color: #fff; padding: 8px 14px; border-radius: 99px; font-size: 18px; }
+
+    /* ---------- 타이틀 ---------- */
+    #title {
+      position: fixed; inset: 0; display: flex; flex-direction: column; 
+      padding: calc(16px + var(--safeT)) 20px calc(18px + var(--safeB));
+    }
+    .logo { text-align: center; color: #fff; text-shadow: 0 4px 0 rgba(0,0,0,0.3); margin-top: 8px; }
+    .logo h1 { font-size: 48px; margin: 0; letter-spacing: 2px; -webkit-text-stroke: 1px rgba(0,0,0,0.15); }
+    .logo p { display: inline-block; margin: 6px 0 0; font-size: 17px; background: rgba(15,20,45,0.55); padding: 4px 14px; border-radius: 99px; text-shadow: none; }
+    #title .grow { flex: 1; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .menu { max-width: 420px; width: 100%; margin: 0 auto; }
+    .menuRow { display: flex; gap: 10px; }
+    .menuRow .big { font-size: 18px; padding: 13px; }
+
+    /* ---------- 선택/강화 ---------- */
+    #select { position: fixed; inset: 0; display: flex; flex-direction: column; pointer-events: none; }
+    #select > * { pointer-events: auto; }
+    #select .topbar { padding: calc(10px + var(--safeT)) 14px 0; }
+    #selTitle { color: #fff; font-size: 21px; background: rgba(15,20,45,0.7); padding: 6px 14px; border-radius: 99px; white-space: nowrap; }
+    #selTitle.p1c { color: #9fd0ff; } #selTitle.p2c { color: #ffb0bd; }
+    .spacer { flex: 1; min-height: 120px; pointer-events: none !important; }
+    .sheet {
+      background: var(--card); border-radius: 28px 28px 0 0; padding: 14px 14px calc(12px + var(--safeB));
+      max-height: 66vh; overflow-y: auto; touch-action: pan-y; box-shadow: 0 -6px 20px rgba(0,0,0,0.25);
+      max-width: 620px; width: 100%; margin: 0 auto;
+    }
+    #topGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 10px; }
+    .topCard {
+      display: flex; flex-direction: column; align-items: center; padding: 8px 2px; border-radius: 16px;
+      background: #eef2fb; border: 3px solid transparent; font-size: 13px;
+    }
+    .topCard.on { border-color: #ff9a3d; background: #fff6e6; }
+    .topCard .dot { width: 34px; height: 34px; border-radius: 50%; margin-bottom: 4px; }
+    .topCard .tl { font-size: 11px; color: #667; }
+    .dHead { display: flex; justify-content: space-between; align-items: center; font-size: 22px; }
+    .badge { font-size: 14px; background: #eef2fb; padding: 4px 10px; border-radius: 99px; }
+    .dDesc { color: #556; margin: 2px 0 8px; font-size: 15px; }
+    .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 12px; margin-bottom: 8px; }
+    .stat { display: flex; align-items: center; gap: 6px; font-size: 13px; }
+    .stat span { width: 62px; flex: none; }
+    .sbar { flex: 1; height: 9px; background: #e2e7f3; border-radius: 9px; overflow: hidden; }
+    .sbar i { display: block; height: 100%; background: linear-gradient(90deg, #6fd3ff, #4d7cff); border-radius: 9px; }
+    .ability { background: #f4f6fc; border-radius: 14px; padding: 8px 10px; margin: 6px 0; font-size: 14px; line-height: 1.4; color: #445; }
+    .ability b { color: var(--ink); font-size: 15px; }
+    #diffRow { display: flex; gap: 6px; margin-top: 8px; }
+    #diffRow button { flex: 1; padding: 10px 0; border-radius: 14px; background: #eef2fb; font-size: 17px; border: 3px solid transparent; }
+    #diffRow button.on { border-color: #4da3ff; background: #e6f2ff; }
+    #upRow { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+    #upInfo { flex: 1; font-size: 14px; line-height: 1.4; }
+    #upRow .big { width: auto; flex: none; padding: 14px 18px; margin: 0; font-size: 19px; }
+
+    /* ---------- 전투 HUD ---------- */
+    #hud { position: fixed; inset: 0; pointer-events: none; }
+    .panel {
+      position: absolute; left: 0; right: 0; display: flex; align-items: flex-end; gap: 10px;
+      padding: 0 12px calc(12px + var(--safeB));
+    }
+    #panel0 { bottom: 0; }
+    #panel1 { top: 0; padding: calc(10px + var(--safeT)) 64px 0 12px; align-items: flex-start; }
+    #panel1.flip { transform: rotate(180deg); padding: 0 12px calc(12px + var(--safeT)); top: 0; bottom: auto; align-items: flex-end; }
+    .bars { flex: 1; background: rgba(15,20,45,0.6); color: #fff; border-radius: 18px; padding: 8px 12px; min-width: 0; }
+    .nm { font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .nm em { font-style: normal; }
+    .nm small { opacity: .75; }
+    .hpbar { position: relative; height: 18px; background: rgba(255,255,255,0.18); border-radius: 10px; overflow: hidden; margin: 5px 0 4px; }
+    .hpbar i { position: absolute; left: 0; top: 0; bottom: 0; background: linear-gradient(90deg, #5dff8a, #2ecf6a); border-radius: 10px; transition: width .15s; }
+    .hpbar i.low { background: linear-gradient(90deg, #ff8a5d, #ff3d3d); }
+    .hpbar span { position: relative; display: block; text-align: center; font-size: 13px; line-height: 18px; text-shadow: 0 1px 2px #000; }
+    .spbar { height: 7px; background: rgba(255,255,255,0.18); border-radius: 6px; overflow: hidden; }
+    .spbar i { display: block; height: 100%; background: linear-gradient(90deg, #ffe07a, #ffb84d); }
+    .sub { display: flex; justify-content: space-between; font-size: 12px; margin-top: 3px; opacity: .9; gap: 6px; }
+    .status { font-size: 15px; min-height: 18px; }
+    .skill {
+      pointer-events: auto; position: relative; width: 92px; height: 92px; flex: none; border-radius: 50%;
+      background: conic-gradient(rgba(0,0,0,0.55) var(--cd, 0deg), transparent 0), linear-gradient(135deg, #ffe07a, #ff8a3d);
+      color: #fff; box-shadow: 0 5px 0 rgba(0,0,0,0.3); display: flex; flex-direction: column; align-items: center; justify-content: center;
+      touch-action: none;
+    }
+    .skill .si { font-size: 34px; line-height: 1; }
+    .skill .sn { font-size: 13px; margin-top: 2px; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
+    .skill .sc { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 34px; text-shadow: 0 2px 3px #000; }
+    .skill.ready { animation: pulse 1s infinite; }
+    .skill:active { transform: scale(.94); }
+    #skill1 { background: conic-gradient(rgba(0,0,0,0.55) var(--cd, 0deg), transparent 0), linear-gradient(135deg, #ffb0bd, #ff5d73); }
+    #skill0 { background: conic-gradient(rgba(0,0,0,0.55) var(--cd, 0deg), transparent 0), linear-gradient(135deg, #a8dcff, #4d7cff); }
+    @keyframes pulse { 50% { box-shadow: 0 5px 0 rgba(0,0,0,0.3), 0 0 0 8px rgba(255,255,255,0.35); } }
+    #timer {
+      position: absolute; right: 12px; top: calc(12px + var(--safeT)); background: rgba(15,20,45,0.6); color: #fff;
+      border-radius: 14px; padding: 4px 10px; font-size: 20px; min-width: 46px; text-align: center;
+    }
+    #hud.pvp #timer { top: 50%; right: 10px; transform: translateY(-50%) rotate(90deg); }
+    #timer.hurry { color: #ff8a8a; }
+    #pauseBtn {
+      pointer-events: auto; position: absolute; right: 12px; top: calc(52px + var(--safeT)); width: 44px; height: 44px;
+      border-radius: 14px; background: rgba(15,20,45,0.6); color: #fff; font-size: 20px;
+    }
+    #hud.pvp #pauseBtn { top: 50%; left: 10px; right: auto; transform: translateY(-50%); }
+    .msg {
+      position: absolute; left: 0; right: 0; margin: 0 auto; width: max-content; max-width: 90%;
+      text-align: center; color: #fff; font-size: 21px; padding: 6px 16px; border-radius: 18px;
+      background: rgba(15,20,45,0.7); transition: opacity .3s; pointer-events: none;
+    }
+    .msg.big { font-size: 46px; color: var(--gold); text-shadow: 0 3px 0 rgba(0,0,0,0.5); }
+    #msg0 { bottom: 30%; }
+    #msg1 { top: 30%; transform: rotate(180deg); }
+    #hud:not(.pvp) #msg0 { bottom: auto; top: 42%; }
+
+    .float {
+      position: absolute; transform: translate(-50%, -50%); font-size: 22px; color: #fff; white-space: nowrap;
+      text-shadow: 0 2px 0 rgba(0,0,0,0.6); animation: rise .9s ease-out forwards;
+    }
+    .float.dmg { color: #ffef9a; }
+    .float.crit { color: #ff7a4d; font-size: 30px; }
+    .float.heal { color: #7dff8a; }
+    .float.info { font-size: 17px; background: rgba(15,20,45,0.6); padding: 2px 10px; border-radius: 99px; }
+    .float.skillf { font-size: 19px; padding: 3px 12px; border-radius: 99px; }
+    .float.p1b { background: rgba(77,163,255,0.85); }
+    .float.p2b { background: rgba(255,93,115,0.85); }
+    @keyframes rise { 0% { opacity: 0; margin-top: 10px; } 15% { opacity: 1; } 100% { opacity: 0; margin-top: -50px; } }
+
+    /* ---------- 창 ---------- */
+    .modal {
+      position: fixed; inset: 0; background: rgba(10,14,35,0.55); display: flex; align-items: center; justify-content: center; padding: 20px;
+    }
+    .box { background: #fff; border-radius: 28px; padding: 22px; width: 100%; max-width: 380px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.35); }
+    .box h2 { margin: 0 0 6px; font-size: 34px; }
+    .box p { margin: 4px 0; color: #556; font-size: 17px; }
+    #resCoins { font-size: 22px; color: #e08a00; margin: 10px 0; }
+    #help .box { max-width: 460px; text-align: left; max-height: 85vh; overflow-y: auto; touch-action: pan-y; }
+    #help h3 { margin: 10px 0 6px; }
+    #help p { font-size: 15px; line-height: 1.45; }
+    .itemList div { font-size: 14px; padding: 4px 0; color: #445; }
+    .itemList span { font-size: 20px; margin-right: 6px; }
+    #toast {
+      position: fixed; left: 50%; top: calc(18% + var(--safeT)); transform: translateX(-50%) scale(.9); opacity: 0;
+      background: rgba(15,20,45,0.85); color: #fff; padding: 10px 18px; border-radius: 99px; font-size: 18px; transition: .2s; pointer-events: none;
+    }
+    #toast.on { opacity: 1; transform: translateX(-50%) scale(1); }
+    #error { position: fixed; inset: 20px; background: #fff; padding: 20px; border-radius: 20px; font-size: 18px; }
+    @media (min-width: 700px) and (min-height: 500px) {
+      .skill { width: 104px; height: 104px; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="gl"></canvas>
+  <div id="touch" hidden></div>
+  <canvas id="overlay"></canvas>
+  <div id="floats"></div>
+
+  <!-- 전투 화면 -->
+  <div id="hud" hidden>
+    <div class="panel" id="panel1">
+      <div class="bars">
+        <div class="nm" id="name1"></div>
+        <div class="hpbar"><i id="hp1"></i><span id="hpt1"></span></div>
+        <div class="spbar"><i id="sp1"></i></div>
+        <div class="sub"><span id="trait1"></span><span class="status" id="status1"></span></div>
+      </div>
+      <button class="skill" id="skill1"><span class="si"></span><span class="sn"></span><span class="sc"></span></button>
+    </div>
+    <div id="timer">90</div>
+    <button id="pauseBtn" aria-label="일시정지">⏸</button>
+    <div class="msg" id="msg0"></div>
+    <div class="msg" id="msg1"></div>
+    <div class="panel" id="panel0">
+      <div class="bars">
+        <div class="nm" id="name0"></div>
+        <div class="hpbar"><i id="hp0"></i><span id="hpt0"></span></div>
+        <div class="spbar"><i id="sp0"></i></div>
+        <div class="sub"><span id="trait0"></span><span class="status" id="status0"></span></div>
+      </div>
+      <button class="skill" id="skill0"><span class="si"></span><span class="sn"></span><span class="sc"></span></button>
+    </div>
+  </div>
+
+  <!-- 타이틀 -->
+  <section id="title" hidden>
+    <div class="topbar">
+      <a id="btnPark" class="small" href="../" hidden style="text-decoration:none;color:inherit">⬅ 게임파크</a>
+      <span></span>
+      <span class="coins">🪙 <span id="titleCoins">0</span></span>
+    </div>
+    <div class="logo">
+      <h1>🌀 팽이 배틀</h1>
+      <p>쾅! 부딪쳐서 상대 HP를 0으로 만들어요</p>
+    </div>
+    <div class="grow"></div>
+    <div class="menu">
+      <button class="big ai" id="btnAI">🤖 AI와 대전</button>
+      <button class="big pvp" id="btnPvp">👥 2인 대전 (한 휴대폰)</button>
+      <div class="menuRow">
+        <button class="big up" id="btnUp">🔧 팽이 강화</button>
+        <button class="big" id="btnHelp">❓ 하는 방법</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 팽이 선택 / 강화 -->
+  <section id="select" hidden>
+    <div class="topbar">
+      <button class="small" id="selBack">⬅</button>
+      <span id="selTitle"></span>
+      <span class="coins">🪙 <span id="selCoins">0</span></span>
+    </div>
+    <div class="spacer"></div>
+    <div class="sheet">
+      <div id="topGrid"></div>
+      <div id="detail"></div>
+      <div id="diffRow">
+        <button data-d="easy">😊 쉬움</button>
+        <button data-d="normal" class="on">😎 보통</button>
+        <button data-d="hard">🔥 어려움</button>
+      </div>
+      <div id="upRow">
+        <div id="upInfo"></div>
+        <button class="big go" id="upBtn">강화</button>
+      </div>
+      <button class="big go" id="selGo">배틀 시작!</button>
+    </div>
+  </section>
+
+  <!-- 일시정지 -->
+  <div class="modal" id="pause" hidden>
+    <div class="box">
+      <h2>⏸ 잠깐 멈춤</h2>
+      <button class="big ai" id="pResume">▶ 계속하기</button>
+      <button class="big" id="pRestart">🔄 다시 시작</button>
+      <button class="big" id="pQuit">🏠 처음으로</button>
+    </div>
+  </div>
+
+  <!-- 결과 -->
+  <div class="modal" id="result" hidden>
+    <div class="box">
+      <h2 id="resTitle"></h2>
+      <p id="resSub"></p>
+      <div id="resCoins"></div>
+      <button class="big go" id="rAgain">🔄 다시 하기</button>
+      <button class="big" id="rChange">🌀 팽이 바꾸기</button>
+      <button class="big" id="rHome">🏠 처음으로</button>
+    </div>
+  </div>
+
+  <!-- 도움말 -->
+  <div class="modal" id="help" hidden>
+    <div class="box">
+      <div id="helpBody"></div>
+      <button class="big ai" id="helpClose">알겠어요!</button>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+  <div id="error" hidden></div>
+
+  <!-- 스크립트는 순서대로 불러온다 (file://에서도 동작하도록 모듈을 쓰지 않음) -->
+  <script src="libs/three.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/save.js"></script>
+  <script src="js/battle.js"></script>
+  <script src="js/ai.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/input.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -14,6 +14,15 @@ export const GAMES: GameDef[] = [
     Component: StarCatch,
   },
   {
+    id: 'spin-top',
+    title: '팽이 배틀',
+    emoji: '🌀',
+    description: '팽이를 발사해서 부딪쳐 싸우는 3D 대전 게임 (AI 대전, 2인 대전)',
+    gradient: 'from-sky-300 to-violet-300',
+    status: 'ready',
+    href: `${import.meta.env.BASE_URL}spin-top/`,
+  },
+  {
     id: 'memory-match',
     title: '카드 짝맞추기',
     emoji: '🃏',
