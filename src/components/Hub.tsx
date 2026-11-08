@@ -21,7 +21,11 @@ export default function Hub({ onSelect }: HubProps) {
             <button
               key={game.id}
               disabled={!ready}
-              onClick={() => ready && onSelect(game.id)}
+              onClick={() => {
+                if (!ready) return
+                if (game.href) window.location.href = game.href
+                else onSelect(game.id)
+              }}
               className={`group relative overflow-hidden rounded-3xl border-2 border-white p-5 text-left shadow transition-transform ${
                 ready ? 'active:scale-95' : 'cursor-not-allowed opacity-60'
               }`}

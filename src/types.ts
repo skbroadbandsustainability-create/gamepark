@@ -12,6 +12,7 @@ export interface GameDef {
   gradient: string // 카드 배경 그라디언트 (tailwind 클래스)
   status: 'ready' | 'soon'
   Component?: ComponentType<GamePlayProps>
+  href?: string // 따로 만든 게임(public 폴더)으로 이동할 주소. 있으면 Component 대신 이 주소로 이동해요.
 }
 
 export const HIGH_SCORE_PREFIX = 'gamepark-highscore-'
