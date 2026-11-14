@@ -2,7 +2,8 @@
 
 귀여운 공룡들이 점프하고 기술을 쓰며 싸우는 2D 액션 게임이에요. 휴대폰·태블릿 터치와 키보드 모두 돼요.
 
-- **실행 (노트북)**: `public/dino-battle/index.html`을 크롬에서 더블클릭. Node.js가 필요 없어요.
+- **실행 (노트북)**: `index.html` 파일 하나를 크롬에서 더블클릭. Node.js도, 다른 파일도 필요 없어요.
+  - 파일 받기: GitHub에서 `public/dino-battle/index.html`을 열고 오른쪽 위 ⬇️(Download raw file) 버튼을 눌러요.
 - **실행 (휴대폰)**: https://skbroadbandsustainability-create.github.io/gamepark/dino-battle/
   - 휴대폰을 가로로 돌려서 해요. 크롬 메뉴 → "홈 화면에 추가"를 누르면 앱처럼 실행되고, 한 번 연 뒤에는 인터넷 없이도 돼요.
 
@@ -32,14 +33,9 @@
 
 ## 파일
 ```
-index.html            화면과 스타일, 스크립트를 순서대로 불러옴 (모듈/빌드 없음)
-js/data.js            공룡, 기술, 스테이지, 적 세기, 보상 ← 숫자는 여기서 조절
-js/save.js            코인/해금/깬 스테이지 저장 (localStorage)
-js/sound.js           효과음 (Web Audio, 파일 없음)
-js/game.js            물리, 공격과 기술, 아이템, 적 인공지능, 스테이지 진행, 승패
-js/draw.js            공룡 그림, 배경, 이펙트, HUD (그림 파일 없이 캔버스로 그림)
-js/input.js           터치 버튼과 키보드
-js/ui.js              타이틀, 모험 지도, 공룡 고르기(해금), 결과, 일시정지
-js/main.js            게임 루프, 앱 설치(PWA) 연결
+index.html            게임 전부 (화면, 스타일, 코드가 한 파일에 들어 있어요)
+                      이 파일 하나만 있어도 더블클릭으로 실행돼요.
+                      코드 안의 구역: data(공룡·기술·스테이지 숫자) / save / sound / game(전투) /
+                      draw(그림) / input(조작) / ui(화면) / main(게임 루프)
 manifest.webmanifest, sw.js, icons/   휴대폰 홈 화면 설치와 오프라인 실행
 ```

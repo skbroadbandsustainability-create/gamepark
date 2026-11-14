@@ -1,10 +1,8 @@
 // 오프라인 실행용 서비스 워커
 // 인터넷이 되면 항상 최신 파일을 받고(네트워크 우선), 안 되면 저장해 둔 파일로 실행한다.
-var CACHE = 'dinobattle-v1';
+var CACHE = 'dinobattle-v2';
 var FILES = [
   './', './index.html', './manifest.webmanifest',
-  './js/data.js', './js/save.js', './js/sound.js', './js/game.js',
-  './js/draw.js', './js/input.js', './js/ui.js', './js/main.js',
   './icons/icon-192.png', './icons/icon-512.png',
 ];
 
