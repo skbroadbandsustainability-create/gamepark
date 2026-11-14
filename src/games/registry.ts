@@ -23,6 +23,15 @@ export const GAMES: GameDef[] = [
     href: `${import.meta.env.BASE_URL}spin-top/`,
   },
   {
+    id: 'dino-battle',
+    title: '공룡 배틀',
+    emoji: '🦖',
+    description: '귀여운 공룡이 점프하고 기술을 쓰며 싸우는 2D 액션 게임 (모험 9스테이지, 2인 대전)',
+    gradient: 'from-lime-300 to-emerald-300',
+    status: 'ready',
+    href: `${import.meta.env.BASE_URL}dino-battle/`,
+  },
+  {
     id: 'memory-match',
     title: '카드 짝맞추기',
     emoji: '🃏',

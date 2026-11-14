@@ -1,0 +1,17 @@
+{
+  "name": "공룡 배틀",
+  "short_name": "공룡 배틀",
+  "description": "귀여운 공룡들이 점프하고 기술을 쓰며 싸우는 2D 액션 게임",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#6dbb7e",
+  "theme_color": "#3f8f4f",
+  "lang": "ko",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
