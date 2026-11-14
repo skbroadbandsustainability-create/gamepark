@@ -219,7 +219,7 @@
     <div class="wrap">
       <div class="logo">
         <h1>🦖 공룡 배틀</h1>
-        <p>꼬마 공룡들의 신나는 대모험!</p>
+        <p>공룡 20종의 신나는 대모험!</p>
       </div>
       <div class="menu">
         <button class="big adv" id="bAdv">🗺️ 모험 떠나기</button>
@@ -303,11 +303,11 @@
         <p>둘이서: 1P <kbd>A</kbd><kbd>D</kbd> 이동 <kbd>W</kbd> 점프 <kbd>F</kbd> 공격 <kbd>G</kbd> 기술 · 2P <kbd>←</kbd><kbd>→</kbd> 이동 <kbd>↑</kbd> 점프 <kbd>K</kbd> 공격 <kbd>L</kbd> 기술</p>
         <p><kbd>Esc</kbd> 또는 <kbd>P</kbd>: 잠깐 멈추기</p>
         <h4>🗺️ 모험</h4>
-        <p>정글, 사막, 화산을 지나 9개 스테이지를 깨요. 적 무리를 모두 물리치면 승리! 각 세계 마지막에는 왕관 쓴 보스가 기다려요.</p>
+        <p>정글, 사막, 화산, 설원, 늪지, 밤하늘을 지나 18개 스테이지를 깨요. 적 무리를 모두 물리치면 승리! 각 세계 마지막에는 왕관 쓴 보스가 기다려요.</p>
         <h4>🍖 아이템</h4>
         <p>하늘에서 떨어지는 🍖 고기는 체력 회복, ⚡ 번개는 기술을 바로 다시 쓸 수 있게 해줘요.</p>
         <h4>🪙 코인과 해금</h4>
-        <p>스테이지를 깨면 코인을 받아요 (처음 깨면 두 배!). 코인으로 새 공룡과 공룡마다 두 번째 기술을 열 수 있어요. 어떤 공룡은 스테이지를 깨면 무료로 열려요.</p>
+        <p>스테이지를 깨면 코인을 받아요 (처음 깨면 두 배!). 코인으로 새 공룡과 공룡마다 두 번째 기술을 열 수 있어요. 공룡은 모두 20종! 스테이지를 깰 때마다 새 친구가 무료로 열리기도 해요.</p>
         <h4>🤝 2인 대전</h4>
         <p>한 기기로 둘이서 싸워요. 왼쪽 버튼은 1P(파랑), 오른쪽 버튼은 2P(빨강). 상대 체력을 0으로 만들거나, 시간이 끝났을 때 체력이 더 많으면 승리!</p>
       </div>
@@ -407,6 +407,127 @@ DB.data = {
       desc: '목이 아주 긴 친구. 땅을 쿵 굴러서 충격파를 보내요.',
     },
     {
+      id: 'allo', name: '알로', emoji: '🦷',
+      color: '#d9a066', belly: '#fbe8cc', accent: '#9a5a3a', line: '#7a4a28',
+      w: 60, h: 58, hp: 115, atk: 11, spd: 1.05, jump: 1.0, reach: 48,
+      skills: ['clawCombo', 'hunterRoar'],
+      unlock: { stage: 10, cost: 300 },
+      desc: '쥐라기 최강 사냥꾼. 날카로운 발톱으로 연달아 할퀴어요.',
+    },
+    {
+      id: 'diplo', name: '디플로', emoji: '🎋',
+      color: '#8fb8a8', belly: '#e4f2ec', accent: '#5f8f7f', line: '#4a6f62',
+      w: 80, h: 62, hp: 160, atk: 9, spd: 0.78, jump: 0.88, reach: 50,
+      skills: ['tailWhip', 'bigStomp'],
+      unlock: { stage: 14, cost: 380 },
+      desc: '몸이 아주 긴 친구. 채찍 같은 꼬리로 멀리 있는 적도 딱!',
+    },
+    {
+      id: 'iguano', name: '이구아노', emoji: '👍',
+      color: '#6fae6f', belly: '#e2f4d6', accent: '#f0d27a', line: '#3f7a3f',
+      w: 58, h: 62, hp: 130, atk: 9, spd: 0.95, jump: 0.95, reach: 46,
+      skills: ['thumbStab', 'grassMunch'],
+      unlock: { stage: 6, cost: 220 },
+      desc: '엄지손가락 가시로 콕! 풀을 뜯어 먹고 힘을 되찾아요.',
+    },
+    {
+      id: 'carno', name: '카르노', emoji: '🐂',
+      color: '#e0606e', belly: '#ffe0e2', accent: '#7a2a3a', line: '#8f3040',
+      w: 58, h: 56, hp: 105, atk: 11, spd: 1.2, jump: 1.0, reach: 44,
+      skills: ['bullCharge', 'hornToss'],
+      unlock: { stage: 12, cost: 340 },
+      desc: '황소 뿔이 달린 날쌘 사냥꾼. 엄청 빠르게 돌진해요.',
+    },
+    {
+      id: 'dilo', name: '딜로', emoji: '🎀',
+      color: '#4cc2b5', belly: '#dcf7f2', accent: '#ff7a5c', line: '#2a7f76',
+      w: 56, h: 56, hp: 100, atk: 9, spd: 1.1, jump: 1.05, reach: 44,
+      skills: ['venomSpit', 'frillScare'],
+      unlock: { stage: 8, cost: 260 },
+      desc: '머리에 볏이 두 개! 끈끈이 침을 뱉어 적을 멈추게 해요.',
+    },
+    {
+      id: 'giga', name: '기가노', emoji: '🏔️',
+      color: '#7f8fa8', belly: '#e6ebf3', accent: '#c94a4a', line: '#4a566a',
+      w: 70, h: 64, hp: 135, atk: 12, spd: 0.95, jump: 0.95, reach: 52,
+      skills: ['gigaBite', 'quake'],
+      unlock: { stage: 18, cost: 500 },
+      desc: '티라노만큼 커다란 사냥꾼. 한입이 아주 세요!',
+    },
+    {
+      id: 'argentino', name: '아르헨티노', emoji: '🏗️',
+      color: '#c9a27e', belly: '#f6e9da', accent: '#8f6a4a', line: '#7a5a3c',
+      w: 76, h: 80, hp: 175, atk: 10, spd: 0.72, jump: 0.85, reach: 54,
+      skills: ['bodySlam', 'giantGuard'],
+      unlock: { stage: 17, cost: 450 },
+      desc: '가장 큰 공룡! 높이 뛰어올라 엉덩방아로 땅을 흔들어요.',
+    },
+    {
+      id: 'galli', name: '갈리미무스', emoji: '👟',
+      color: '#f6a5c0', belly: '#fff0f5', accent: '#ff8a3d', line: '#b0607a',
+      w: 52, h: 60, hp: 85, atk: 8, spd: 1.35, jump: 1.15, reach: 42,
+      skills: ['sprintKick', 'sandThrow'],
+      unlock: { stage: 4, cost: 180 },
+      desc: '타조처럼 다리가 길어서 가장 빨리 달려요.',
+    },
+    {
+      id: 'proto', name: '프로토', emoji: '🐣',
+      color: '#e6c07b', belly: '#fbf0d8', accent: '#d9825a', line: '#9a7a3a',
+      w: 50, h: 40, hp: 105, atk: 8, spd: 1.0, jump: 0.95, reach: 40,
+      skills: ['headbutt', 'sandBall'],
+      unlock: { stage: 2, cost: 120 },
+      desc: '트리케라톱스의 작은 친척. 작지만 박치기가 세요.',
+    },
+    {
+      id: 'coryth', name: '코리토', emoji: '🎺',
+      color: '#5f8fd6', belly: '#e2ecfb', accent: '#ffb347', line: '#33589a',
+      w: 58, h: 64, hp: 125, atk: 9, spd: 0.95, jump: 1.0, reach: 44,
+      skills: ['trumpet', 'herdCheer'],
+      unlock: { stage: 13, cost: 340 },
+      desc: '머리에 투구 볏이 있어요. 나팔 소리로 적을 밀어내요.',
+    },
+    {
+      id: 'ovi', name: '오비랍토르', emoji: '🥚',
+      color: '#9e8cf0', belly: '#efebff', accent: '#ff8fb1', line: '#5f50a8',
+      w: 48, h: 50, hp: 90, atk: 8, spd: 1.15, jump: 1.1, reach: 40,
+      skills: ['eggBomb', 'beakPeck'],
+      unlock: { stage: 9, cost: 260 },
+      desc: '알을 아끼는 좋은 부모. 알 폭탄을 던져요(걱정 마요, 빈 알이에요).',
+    },
+    {
+      id: 'therizino', name: '테리지노', emoji: '✂️',
+      color: '#c79bd9', belly: '#f6ebfb', accent: '#fff0c8', line: '#7a5a8f',
+      w: 60, h: 66, hp: 130, atk: 11, spd: 0.85, jump: 0.9, reach: 56,
+      skills: ['scythe', 'clawStorm'],
+      unlock: { stage: 16, cost: 420 },
+      desc: '손톱이 아주 긴 순한 친구. 낫 발톱이 멀리까지 닿아요.',
+    },
+    {
+      id: 'maia', name: '마이아', emoji: '🪺',
+      color: '#9fd0a8', belly: '#eaf7ec', accent: '#ff9f80', line: '#5a8f66',
+      w: 58, h: 60, hp: 135, atk: 9, spd: 0.9, jump: 0.95, reach: 44,
+      skills: ['momGuard', 'momStomp'],
+      unlock: { stage: 11, cost: 300 },
+      desc: '아기를 돌보는 착한 엄마 공룡. 보호막으로 몸을 지켜요.',
+    },
+    {
+      id: 'compy', name: '콤피', emoji: '🐤',
+      color: '#c8e06a', belly: '#f6fbdc', accent: '#ff9b4a', line: '#7a9030',
+      w: 36, h: 36, hp: 70, atk: 7, spd: 1.3, jump: 1.15, reach: 34,
+      maxJumps: 3,
+      skills: ['nibble', 'zoom'],
+      unlock: { stage: 1, cost: 100 },
+      desc: '닭만 한 꼬마 공룡. 작아서 맞추기 어렵고 세 번 점프해요.',
+    },
+    {
+      id: 'amarga', name: '아마르가', emoji: '🦔',
+      color: '#d97a5a', belly: '#fde6dc', accent: '#ffd36b', line: '#8f4a32',
+      w: 66, h: 60, hp: 140, atk: 10, spd: 0.88, jump: 0.92, reach: 50,
+      skills: ['spineGuard', 'spineShot'],
+      unlock: { stage: 15, cost: 380 },
+      desc: '목과 등에 긴 가시가 두 줄! 가시를 날려 공격해요.',
+    },
+    {
       id: 'raptor', name: '아기 랩터', emoji: '🦎',
       color: '#a7c47e', belly: '#eef6dc', accent: '#ff8f6b', line: '#5c7440',
       w: 46, h: 46, hp: 50, atk: 6, spd: 1.2, jump: 1.0, reach: 38,
@@ -428,6 +549,36 @@ DB.data = {
     tailSpin: { name: '꼬리 회오리', icon: '🌀', cd: 6, type: 'spin', dmg: 7, time: 0.66, radius: 85, cost: 100, desc: '빙글빙글 돌면서 양쪽 적을 여러 번 쳐요.' },
     stomp: { name: '땅 쿵쿵', icon: '💥', cd: 6, type: 'stomp', dmg: 14, speed: 430, desc: '땅을 굴러 양쪽으로 충격파를 보내요. 점프하면 피할 수 있어요.' },
     heal: { name: '열매 냠냠', icon: '🍎', cd: 12, type: 'heal', amount: 0.3, cost: 100, desc: '맛있는 열매를 먹고 체력을 30% 회복해요.' },
+    clawCombo: { name: '발톱 연타', icon: '🐾', cd: 5, type: 'claws', dmg: 5, hits: 4, reach: 60, time: 0.5, desc: '앞에 있는 적을 발톱으로 4번 할퀴어요.' },
+    hunterRoar: { name: '사냥꾼의 포효', icon: '😤', cd: 8, type: 'roar', dmg: 6, radius: 200, stun: 1.2, cost: 100, desc: '크게 울어서 가까운 적을 멈추게 해요.' },
+    tailWhip: { name: '채찍 꼬리', icon: '🎋', cd: 5, type: 'whip', dmg: 18, reach: 130, kbx: 520, kby: -300, desc: '긴 꼬리로 멀리 있는 적까지 딱!' },
+    bigStomp: { name: '쿵쾅 발구르기', icon: '🦶', cd: 6, type: 'stomp', dmg: 15, speed: 450, cost: 100, desc: '땅을 굴러 양쪽으로 충격파를 보내요.' },
+    thumbStab: { name: '엄지 찌르기', icon: '👍', cd: 4, type: 'dash', dmg: 15, speed: 560, time: 0.28, kb: 420, desc: '앞으로 뛰어가며 엄지 가시로 콕!' },
+    grassMunch: { name: '풀 뜯기', icon: '🌿', cd: 11, type: 'heal', amount: 0.25, cost: 100, desc: '풀을 뜯어 먹고 체력을 25% 회복해요.' },
+    bullCharge: { name: '황소 돌진', icon: '🐂', cd: 5, type: 'dash', dmg: 17, speed: 820, time: 0.4, kb: 560, desc: '엄청 빠르게 들이받아요.' },
+    hornToss: { name: '뿔 던지기', icon: '🤘', cd: 6, type: 'whip', dmg: 14, reach: 60, kbx: 160, kby: -720, stun: 0.7, cost: 100, desc: '뿔로 적을 하늘 높이 던져 올려요.' },
+    venomSpit: { name: '끈끈이 침', icon: '💚', cd: 4, type: 'projectile', kind: 'venom', dmg: 9, speed: 480, r: 12, stun: 0.9, color: '#7be35a', desc: '끈끈한 침을 뱉어서 맞은 적이 잠깐 못 움직여요.' },
+    frillScare: { name: '볏 펼치기', icon: '🎀', cd: 8, type: 'roar', dmg: 4, radius: 170, stun: 1.5, cost: 100, desc: '볏을 활짝 펴서 적을 깜짝 놀라게 해요.' },
+    gigaBite: { name: '거대한 한입', icon: '😬', cd: 5, type: 'whip', dmg: 22, reach: 70, kbx: 420, kby: -320, color: '#ffffff', desc: '아주 세게 앙! 물어요.' },
+    quake: { name: '대지 흔들기', icon: '🌋', cd: 7, type: 'stomp', dmg: 17, speed: 480, cost: 100, desc: '땅을 크게 흔들어 강한 충격파를 보내요.' },
+    bodySlam: { name: '엉덩방아 쿵', icon: '🍑', cd: 6, type: 'leap', dmg: 18, speed: 420, radius: 110, jump: 760, fwd: 240, desc: '높이 뛰어올랐다가 엉덩방아! 땅이 흔들려요.' },
+    giantGuard: { name: '거대한 몸', icon: '🏔️', cd: 10, type: 'shield', time: 3.5, dmg: 0, reduce: 0.25, color: '#8fb3ff', cost: 100, desc: '3.5초 동안 받는 피해가 많이 줄어요.' },
+    sprintKick: { name: '질주 발차기', icon: '👟', cd: 4, type: 'dash', dmg: 13, speed: 900, time: 0.45, kb: 380, desc: '번개처럼 달려가며 발차기!' },
+    sandThrow: { name: '모래 뿌리기', icon: '🏜️', cd: 5, type: 'spread', kind: 'pebble', dmg: 7, speed: 520, count: 4, color: '#c9a46a', cost: 100, desc: '모래알 네 개를 부채꼴로 뿌려요.' },
+    headbutt: { name: '박치기', icon: '💫', cd: 4, type: 'dash', dmg: 13, speed: 600, time: 0.3, kb: 480, desc: '머리로 쿵! 들이받아요.' },
+    sandBall: { name: '모래 공 굴리기', icon: '🟤', cd: 6, type: 'boulder', dmg: 15, speed: 360, r: 16, color: '#e6c07b', cost: 100, desc: '모래 공을 데굴데굴 굴려요.' },
+    trumpet: { name: '우렁찬 나팔', icon: '🎺', cd: 5, type: 'projectile', kind: 'sonic', pierce: true, dmg: 10, speed: 460, r: 22, stun: 0.5, desc: '볏으로 나팔 소리를 보내요. 여러 적을 뚫고 지나가요.' },
+    herdCheer: { name: '무리 응원', icon: '🎶', cd: 12, type: 'heal', amount: 0.3, cost: 100, desc: '친구들의 응원으로 체력을 30% 회복해요.' },
+    eggBomb: { name: '알 폭탄', icon: '🥚', cd: 4.5, type: 'lob', dmg: 15, speed: 300, up: 560, radius: 70, desc: '빈 알을 던지면 땅에 닿을 때 펑! 터져요.' },
+    beakPeck: { name: '부리 쪼기', icon: '🐦', cd: 4, type: 'claws', dmg: 4, hits: 5, reach: 48, time: 0.5, cost: 100, desc: '부리로 콕콕콕 다섯 번 쪼아요.' },
+    scythe: { name: '낫 발톱', icon: '✂️', cd: 5, type: 'whip', dmg: 19, reach: 95, kbx: 460, kby: -260, desc: '긴 발톱을 크게 휘둘러요.' },
+    clawStorm: { name: '발톱 회오리', icon: '🌀', cd: 6, type: 'spin', dmg: 7, time: 0.66, radius: 90, cost: 100, desc: '빙글빙글 돌면서 양쪽 적을 여러 번 쳐요.' },
+    momGuard: { name: '엄마의 보호막', icon: '🪺', cd: 9, type: 'shield', time: 3, dmg: 0, reduce: 0.2, heal: 0.12, color: '#7fdc98', desc: '3초 동안 피해가 많이 줄고, 체력도 조금 회복해요.' },
+    momStomp: { name: '엄마 쿵쿵', icon: '👣', cd: 6, type: 'stomp', dmg: 14, speed: 430, cost: 100, desc: '아기를 지키려고 땅을 쿵! 충격파를 보내요.' },
+    nibble: { name: '콕콕 물기', icon: '🦷', cd: 3.5, type: 'claws', dmg: 3, hits: 6, reach: 34, time: 0.5, desc: '작은 이빨로 재빨리 여섯 번 물어요.' },
+    zoom: { name: '쌩쌩 대시', icon: '💨', cd: 3, type: 'dash', dmg: 8, speed: 850, time: 0.35, kb: 260, cost: 100, desc: '아주 빠르게 쌩 지나가며 부딪쳐요.' },
+    spineGuard: { name: '가시 갈기', icon: '🦔', cd: 9, type: 'shield', time: 3, dmg: 7, reduce: 0.35, color: '#ffb07a', desc: '가시를 세워서 피해가 줄고, 닿은 적은 따끔!' },
+    spineShot: { name: '가시 날리기', icon: '📍', cd: 5, type: 'spread', kind: 'spine', dmg: 6, speed: 560, count: 5, color: '#d97a5a', cost: 100, desc: '가시 다섯 개를 부채꼴로 날려요.' },
     pounce: { name: '덮치기', icon: '⚡', cd: 4, type: 'dash', dmg: 9, speed: 600, time: 0.3, kb: 300, vy: -380, desc: '폴짝 뛰어 덮쳐요.' },
   },
 
@@ -449,6 +600,18 @@ DB.data = {
       name: '꽃밭', sky: ['#b8e6ff', '#fff0f6'], ground: '#9ee07a', dirt: '#c08a5a', far: '#a3d9a5', near: '#7cc98a',
       platforms: [{ x: 130, y: 345, w: 230 }, { x: 600, y: 345, w: 230 }, { x: 400, y: 230, w: 160 }],
     },
+    snow: {
+      name: '설원', sky: ['#bfe3ff', '#eef8ff'], ground: '#ffffff', dirt: '#9fb6cc', far: '#d6e6f5', near: '#b8cfe6',
+      platforms: [{ x: 120, y: 345, w: 200 }, { x: 640, y: 345, w: 200 }, { x: 390, y: 235, w: 180 }],
+    },
+    swamp: {
+      name: '늪지', sky: ['#a9d8b8', '#e4f4d8'], ground: '#6fa35a', dirt: '#6a5642', far: '#7fae8a', near: '#5d8f6b',
+      platforms: [{ x: 90, y: 340, w: 180 }, { x: 390, y: 300, w: 180 }, { x: 690, y: 340, w: 180 }, { x: 390, y: 190, w: 180 }],
+    },
+    night: {
+      name: '밤하늘', sky: ['#1e2a5a', '#5a5fa8'], ground: '#5f8f6a', dirt: '#4a3d4f', far: '#38407a', near: '#2f3766',
+      platforms: [{ x: 100, y: 330, w: 210 }, { x: 650, y: 330, w: 210 }, { x: 375, y: 225, w: 210 }],
+    },
   },
 
   // 스테이지: waves = 차례로 나오는 적 무리, lv = 적 세기
@@ -461,7 +624,16 @@ DB.data = {
     { world: 'desert', name: '사막 대장', lv: 1.75, waves: [[{ sp: 'raptor' }, { sp: 'raptor' }], [{ sp: 'ptera', boss: true }]], boss: '사막 대장 휘익이' },
     { world: 'volcano', name: '뜨거운 화산', lv: 1.9, waves: [[{ sp: 'trex' }, { sp: 'raptor' }], [{ sp: 'brachio' }, { sp: 'raptor' }]] },
     { world: 'volcano', name: '화산 친구들', lv: 2.05, waves: [[{ sp: 'stego' }, { sp: 'trike' }], [{ sp: 'ptera' }, { sp: 'trex' }]] },
-    { world: 'volcano', name: '최종 보스', lv: 2.2, waves: [[{ sp: 'raptor' }, { sp: 'raptor' }], [{ sp: 'trex', boss: true }]], boss: '화산 대왕 쿠앙이', final: true },
+    { world: 'volcano', name: '화산 대왕', lv: 2.2, waves: [[{ sp: 'raptor' }, { sp: 'raptor' }], [{ sp: 'trex', boss: true }]], boss: '화산 대왕 쿠앙이' },
+    { world: 'snow', name: '눈밭의 꼬마들', lv: 2.1, waves: [[{ sp: 'compy' }, { sp: 'compy' }, { sp: 'raptor' }], [{ sp: 'allo' }]] },
+    { world: 'snow', name: '얼음 계곡', lv: 2.15, waves: [[{ sp: 'proto' }, { sp: 'galli' }], [{ sp: 'dilo' }, { sp: 'compy' }]] },
+    { world: 'snow', name: '설원 대장', lv: 2.2, waves: [[{ sp: 'carno' }], [{ sp: 'allo', boss: true }]], boss: '눈보라 대장 알롱이' },
+    { world: 'swamp', name: '늪의 친구들', lv: 2.25, waves: [[{ sp: 'iguano' }, { sp: 'ovi' }], [{ sp: 'coryth' }, { sp: 'compy' }]] },
+    { world: 'swamp', name: '끈적끈적 늪', lv: 2.3, waves: [[{ sp: 'dilo' }, { sp: 'dilo' }], [{ sp: 'therizino' }, { sp: 'raptor' }]] },
+    { world: 'swamp', name: '늪지 대장', lv: 2.35, waves: [[{ sp: 'maia' }, { sp: 'compy' }], [{ sp: 'diplo', boss: true }]], boss: '늪지 대장 길쭉이', bossHp: 1.35 },
+    { world: 'night', name: '별빛 숲', lv: 2.4, waves: [[{ sp: 'amarga' }, { sp: 'galli' }], [{ sp: 'carno' }, { sp: 'raptor' }]] },
+    { world: 'night', name: '달밤의 결투', lv: 2.45, waves: [[{ sp: 'therizino' }, { sp: 'iguano' }], [{ sp: 'argentino' }, { sp: 'compy' }]] },
+    { world: 'night', name: '최종 보스', lv: 2.5, waves: [[{ sp: 'allo' }, { sp: 'compy' }], [{ sp: 'giga', boss: true }]], boss: '밤하늘 대왕 기가돈', bossHp: 1.8, final: true },
   ],
 
   // 적 세기 계산 (lv에 따라)
@@ -469,6 +641,7 @@ DB.data = {
     hpBase: 0.6, hpPerLv: 0.2,
     atkBase: 0.55, atkPerLv: 0.12,
     bossHp: 2.2, bossAtk: 1.1, bossScale: 1.6,
+    smartCap: 2.0, // 이 lv보다 높아도 적이 더 똑똑해지지는 않아요
     reactBase: 0.45, reactPerLv: 0.1, reactMin: 0.16, // 생각하는 간격(초) - 작을수록 빠름
     aggrBase: 0.35, aggrPerLv: 0.15, // 가까이 있을 때 공격할 확률
   },
@@ -748,7 +921,7 @@ DB.game = (function () {
     var sp = DB.getSpecies(spId);
     var E = D.enemy;
     var scale = o.boss ? E.bossScale : 1;
-    var hpMul = (o.hpMul || 1) * (o.boss ? E.bossHp : 1);
+    var hpMul = (o.hpMul || 1) * (o.boss ? (o.bossHp || E.bossHp) : 1);
     var atkMul = (o.atkMul || 1) * (o.boss ? E.bossAtk : 1);
     var maxHp = Math.round(sp.hp * hpMul);
     var f = {
@@ -783,6 +956,9 @@ DB.game = (function () {
       hurtT: 0,
       stunT: 0,
       shieldT: 0,
+      shieldDmg: 0,
+      shieldReduce: 0.3,
+      shieldColor: null,
       action: null,
       flashT: 0,
       invT: 0,
@@ -799,6 +975,7 @@ DB.game = (function () {
 
   function aiFor(lv) {
     var E = D.enemy;
+    lv = Math.min(lv, E.smartCap || 99);
     return {
       t: rand(0.3, 0.8),
       react: Math.max(E.reactMin, E.reactBase - E.reactPerLv * (lv - 1)),
@@ -870,6 +1047,7 @@ DB.game = (function () {
         y: -60 - k * 60,
         face: right ? -1 : 1,
         boss: e.boss,
+        bossHp: G.stage.bossHp,
         name: e.boss ? G.stage.boss : null,
         hpMul: E.hpBase + E.hpPerLv * lv,
         atkMul: E.atkBase + E.atkPerLv * lv,
@@ -934,8 +1112,9 @@ DB.game = (function () {
     if (!tgt || tgt.dead || tgt.invT > 0 || tgt.team === att.team) return false;
     opts = opts || {};
     if (tgt.shieldT > 0) {
-      dmg *= 0.3; kbx *= 0.3; kby *= 0.3; stun = 0;
-      if (opts.melee && !att.dead) {
+      var red = tgt.shieldReduce || 0.3;
+      dmg *= red; kbx *= red; kby *= red; stun = 0;
+      if (opts.melee && !att.dead && tgt.shieldDmg > 0) {
         hit(tgt, att, 4, (att.x < tgt.x ? -1 : 1) * 300, -200, 0.25);
       }
     }
@@ -1012,14 +1191,14 @@ DB.game = (function () {
     var cx = f.x, cy = f.y - f.h * 0.5;
     switch (d.type) {
       case 'projectile':
-        G.projectiles.push({ kind: 'fire', owner: f, team: f.team, x: f.x + f.face * f.w * 0.5, y: f.y - f.h * 0.62, vx: f.face * d.speed, vy: 0, r: d.r * f.scale, dmg: d.dmg * m, kbx: f.face * 320, kby: -260, stun: 0.4, life: 1.8, t: 0 });
+        G.projectiles.push({ kind: d.kind || 'fire', owner: f, team: f.team, x: f.x + f.face * f.w * 0.5, y: f.y - f.h * 0.62, vx: f.face * d.speed, vy: 0, r: d.r * f.scale, dmg: d.dmg * m, kbx: f.face * 320, kby: -260, stun: d.stun || 0.4, life: 1.8, t: 0, color: d.color, pierce: !!d.pierce, hits: {} });
         f.mouthT = 0.3;
-        snd('fire');
+        snd(d.kind && d.kind !== 'fire' ? 'skill' : 'fire');
         break;
       case 'spread':
         for (var i = 0; i < d.count; i++) {
           var ang = (i - (d.count - 1) / 2) * 0.22;
-          G.projectiles.push({ kind: 'feather', owner: f, team: f.team, x: f.x + f.face * f.w * 0.4, y: f.y - f.h * 0.6, vx: f.face * d.speed * Math.cos(ang), vy: d.speed * Math.sin(ang), r: 10 * f.scale, dmg: d.dmg * m, kbx: f.face * 200, kby: -160, stun: 0.25, life: 1.3, t: 0 });
+          G.projectiles.push({ kind: d.kind || 'feather', color: d.color, owner: f, team: f.team, x: f.x + f.face * f.w * 0.4, y: f.y - f.h * 0.6, vx: f.face * d.speed * Math.cos(ang), vy: d.speed * Math.sin(ang), r: 10 * f.scale, dmg: d.dmg * m, kbx: f.face * 200, kby: -160, stun: 0.25, life: 1.3, t: 0 });
         }
         snd('skill');
         break;
@@ -1045,7 +1224,7 @@ DB.game = (function () {
         snd('skill');
         break;
       case 'boulder':
-        G.projectiles.push({ kind: 'boulder', owner: f, team: f.team, x: f.x + f.face * f.w * 0.6, y: f.y, vx: f.face * d.speed, vy: 0, r: d.r * f.scale, dmg: d.dmg * m, kbx: f.face * 420, kby: -320, stun: 0.5, life: 4, t: 0, pierce: true, hits: {} });
+        G.projectiles.push({ kind: 'boulder', color: d.color, owner: f, team: f.team, x: f.x + f.face * f.w * 0.6, y: f.y, vx: f.face * d.speed, vy: 0, r: d.r * f.scale, dmg: d.dmg * m, kbx: f.face * 420, kby: -320, stun: 0.5, life: 4, t: 0, pierce: true, hits: {} });
         snd('boom');
         break;
       case 'dive':
@@ -1057,7 +1236,14 @@ DB.game = (function () {
       case 'shield':
         f.shieldT = d.time;
         f.contactCd = {};
-        sparkle(cx, cy, '#ff9ccc', 8);
+        f.shieldDmg = d.dmg || 0;
+        f.shieldReduce = d.reduce || 0.3;
+        f.shieldColor = d.color || '#ff7eb0';
+        if (d.heal) {
+          var hh = Math.min(Math.round(f.maxHp * d.heal), f.maxHp - f.hp);
+          if (hh > 0) { f.hp += hh; textPop(f.x, f.y - f.h - 10, '+' + hh, '#5fdc6a', 22); }
+        }
+        sparkle(cx, cy, f.shieldColor, 8);
         snd('skill');
         break;
       case 'spin':
@@ -1072,6 +1258,26 @@ DB.game = (function () {
           f.action = { type: 'stomp', d: d, total: 0 };
           f.vy = 1300;
         }
+        break;
+      case 'claws':
+        f.action = { type: 'claws', t: d.time, tick: 0, d: d, n: 0 };
+        f.mouthT = d.time;
+        break;
+      case 'whip':
+        f.action = { type: 'whip', t: 0.34, d: d, done: false, el: 0 };
+        f.mouthT = 0.3;
+        snd('skill');
+        break;
+      case 'leap':
+        f.action = { type: 'leap', d: d, total: 0, phase: 0 };
+        f.vy = -(d.jump || 760);
+        f.vx = f.face * (d.fwd || 220);
+        f.onGround = false;
+        snd('jump');
+        break;
+      case 'lob':
+        G.projectiles.push({ kind: 'egg', lob: true, owner: f, team: f.team, x: f.x + f.face * f.w * 0.4, y: f.y - f.h * 0.7, vx: f.face * d.speed, vy: -d.up, r: 11 * f.scale, dmg: d.dmg * m, kbx: f.face * 300, kby: -320, stun: 0.45, life: 3, t: 0, radius: d.radius * f.scale });
+        snd('skill');
         break;
       case 'heal':
         var amount = Math.round(f.maxHp * d.amount);
@@ -1150,6 +1356,42 @@ DB.game = (function () {
       }
       a.t -= dt;
       if (a.t <= 0) f.action = null;
+    } else if (a.type === 'claws') {
+      f.vx *= Math.pow(0.02, dt);
+      a.tick -= dt;
+      if (a.tick <= 0 && a.n < a.d.hits) {
+        a.tick = a.d.time / a.d.hits;
+        a.n++;
+        var cr = a.d.reach * Math.sqrt(f.scale);
+        var cb = { x: f.face > 0 ? f.x : f.x - cr, y: f.y - f.h * 0.95, w: cr, h: f.h * 0.9 };
+        G.particles.push({ kind: 'slash', x: f.x + f.face * cr * 0.55, y: f.y - f.h * (0.4 + 0.2 * (a.n % 2)), r: cr * 0.45, face: f.face, life: 0.18, max: 0.18, color: '#ffffff', vx: 0, vy: 0, g: 0 });
+        enemiesOf(f).forEach(function (e) {
+          if (overlap(cb, body(e))) hit(f, e, a.d.dmg * atkMul(f), f.face * 160, -120, 0.22, { melee: true });
+        });
+        snd('attack');
+      }
+      a.t -= dt;
+      if (a.t <= 0) f.action = null;
+    } else if (a.type === 'whip') {
+      f.vx *= Math.pow(0.01, dt);
+      a.el += dt;
+      if (!a.done && a.el >= 0.12) {
+        a.done = true;
+        var wr = a.d.reach * Math.sqrt(f.scale);
+        var wb = { x: f.face > 0 ? f.x : f.x - wr, y: f.y - f.h * 0.95, w: wr, h: f.h };
+        G.particles.push({ kind: 'slash', x: f.x + f.face * wr * 0.5, y: f.y - f.h * 0.5, r: wr * 0.6, face: f.face, life: 0.25, max: 0.25, color: a.d.color || '#fff6a8', vx: 0, vy: 0, g: 0 });
+        enemiesOf(f).forEach(function (e) {
+          if (overlap(wb, body(e))) hit(f, e, a.d.dmg * atkMul(f), f.face * a.d.kbx, a.d.kby, a.d.stun || 0.5, { melee: true });
+        });
+        snd('attack');
+      }
+      a.t -= dt;
+      if (a.t <= 0) f.action = null;
+    } else if (a.type === 'leap') {
+      a.total += dt;
+      if (a.phase === 0 && f.vy > 0) a.phase = 1;
+      if (a.phase === 1) f.vy = 1300;
+      if (a.total > 2) f.action = null;
     } else if (a.type === 'stomp') {
       a.total += dt;
       f.vy = 1300;
@@ -1170,6 +1412,15 @@ DB.game = (function () {
       f.vx *= 0.2;
       dust(f.x, f.y, 10);
       G.shake = Math.max(G.shake, 6);
+    } else if (a.type === 'leap') {
+      stompWave(f, a.d);
+      var R = (a.d.radius || 100) * f.scale;
+      enemiesOf(f).forEach(function (e) {
+        if (Math.abs(e.x - f.x) < R && Math.abs(e.y - f.y) < 70) hit(f, e, a.d.dmg * atkMul(f), (e.x >= f.x ? 1 : -1) * 360, -420, 0.5);
+      });
+      ring(f.x, f.y - 10, R, 'rgba(255,230,150,0.9)', 0.4);
+      f.action = { type: 'pose', t: 0.25 };
+      f.vx = 0;
     } else if (a.type === 'stomp') {
       stompWave(f, a.d);
       f.action = { type: 'pose', t: 0.25 };
@@ -1204,6 +1455,7 @@ DB.game = (function () {
       updateAction(f, dt);
       if (f.action && f.action.type === 'dive' && f.action.phase === 1) gravityOn = false;
       if (f.action && f.action.type === 'stomp') gravityOn = false;
+      if (f.action && f.action.type === 'leap' && f.action.phase === 1) gravityOn = false;
       // 돌진 중 점프는 안 되지만, 회오리 중에는 점프할 수 있어요
       if (f.action && f.action.type === 'spin' && c.jumpP) doJump(f);
     } else if (f.hurtT > 0 || f.stunT > 0) {
@@ -1244,14 +1496,14 @@ DB.game = (function () {
     }
 
     // 가시 방패에 닿으면 따끔
-    if (f.shieldT > 0 && !f.dead) {
+    if (f.shieldT > 0 && !f.dead && f.shieldDmg > 0) {
       var sb = body(f);
       sb.x -= 8; sb.w += 16;
       enemiesOf(f).forEach(function (e) {
         if ((f.contactCd[e.id] || 0) > 0) return;
         if (overlap(sb, body(e))) {
           f.contactCd[e.id] = 0.5;
-          hit(f, e, D.skills.spikeShield.dmg * atkMul(f), (e.x >= f.x ? 1 : -1) * 350, -250, 0.3);
+          hit(f, e, f.shieldDmg * atkMul(f), (e.x >= f.x ? 1 : -1) * 350, -250, 0.3);
         }
       });
     }
@@ -1345,6 +1597,12 @@ DB.game = (function () {
           snd('boom');
           continue;
         }
+      } else if (p.lob) {
+        p.vy += D.gravity * 0.8 * dt;
+        p.x += p.vx * dt;
+        p.y += p.vy * dt;
+        if (p.x < 0 || p.x > D.W) p.vx = -p.vx * 0.5;
+        if (landOnSurfaces(p, prevY, 4)) { explode(p); continue; }
       } else {
         p.x += p.vx * dt;
         p.y += p.vy * dt;
@@ -1368,6 +1626,7 @@ DB.game = (function () {
         else if (p.kind === 'boulder') touch = circleRect(p.x, p.y - p.r, p.r, b);
         else touch = circleRect(p.x, p.y, p.r, b);
         if (!touch) continue;
+        if (p.lob) { explode(p); used = true; break; }
         var kbDir = p.vx >= 0 ? 1 : -1;
         hit(p.owner, e, p.dmg, kbDir * Math.abs(p.kbx), p.kby, p.stun);
         if (p.pierce) {
@@ -1381,6 +1640,17 @@ DB.game = (function () {
       if (!used) keep.push(p);
     }
     G.projectiles = keep;
+  }
+
+  function explode(p) {
+    G.fighters.forEach(function (e) {
+      if (e.team === p.team || e.dead) return;
+      if (circleRect(p.x, p.y - 4, p.radius, body(e))) hit(p.owner, e, p.dmg, (e.x >= p.x ? 1 : -1) * Math.abs(p.kbx), p.kby, p.stun);
+    });
+    burst(p.x, p.y, '#ffe9a8', 14, 300);
+    ring(p.x, p.y - 6, p.radius, 'rgba(255,220,140,0.95)', 0.35);
+    G.shake = Math.max(G.shake, 7);
+    snd('boom');
   }
 
   // ---------- 아이템 ----------
@@ -1449,6 +1719,10 @@ DB.game = (function () {
       case 'shield': return adx < 130 || f.hp < f.maxHp * 0.4;
       case 'spin': return adx < d.radius * f.scale && ady < 80;
       case 'stomp': return t.onGround && ady < 25 && adx < 450;
+      case 'claws': return adx < d.reach * Math.sqrt(f.scale) + t.w * 0.4 && ady < 60;
+      case 'whip': return adx < d.reach * Math.sqrt(f.scale) + t.w * 0.3 && ady < 60;
+      case 'leap': return adx > 60 && adx < 360 && ady < 80;
+      case 'lob': return adx > 100 && adx < 460 && ady < 120;
       case 'heal': return f.hp < f.maxHp * 0.5;
     }
     return false;
@@ -1781,7 +2055,36 @@ DB.draw = (function () {
 
   // ---------- 공룡별 그림 (오른쪽을 보는 모습, 발 가운데가 (0,0)) ----------
   // 머리 꼭대기 위치 (왕관, 기절 별에 사용)
-  var HEAD = { trex: [16, -58], trike: [14, -52], ptera: [8, -56], stego: [24, -30], brachio: [20, -76], raptor: [10, -46] };
+  var HEAD = { trex: [16, -58], trike: [14, -52], ptera: [8, -56], stego: [24, -30], brachio: [20, -76], raptor: [10, -46],
+    allo: [16, -58], diplo: [40, -61], iguano: [16, -58], carno: [17, -64], dilo: [13, -58], giga: [18, -64],
+    argentino: [22, -81], galli: [16, -63], proto: [11, -41], coryth: [15, -65], ovi: [9, -55], therizino: [15, -65],
+    maia: [15, -62], compy: [8, -36], amarga: [29, -58] };
+
+  // 두 발로 서는 초식 공룡 (이구아노돈, 코리토사우루스, 마이아사우라)
+  function orn(ctx, p, A, crest, thumb) {
+    var b = A.bob, s = A.swing, w = A.wag;
+    thick(ctx, -8, -20 + b, -8 - s, -5, 11, p.dark, p.l);
+    blob(ctx, [
+      function () { ell(ctx, -2, -32 + b, 18, 14, -0.15); },
+      function () { ctx.beginPath(); ctx.moveTo(-14, -38 + b); ctx.quadraticCurveTo(-32, -36 + b + w, -46, -26 + b + w); ctx.quadraticCurveTo(-30, -24 + b, -12, -24 + b); ctx.closePath(); },
+      function () { ell(ctx, 10, -42 + b, 7, 10, 0.4); },
+    ], p.c, p.l);
+    ell(ctx, 3, -28 + b, 11, 9); ctx.fillStyle = p.b; ctx.fill();
+    thick(ctx, 5, -20 + b, 5 + s, -5, 11, p.c, p.l);
+    thick(ctx, 10, -34 + b, 17, -26 + b, 5, p.c, p.l);
+    if (thumb) { tri(ctx, 15, -28 + b, 20, -26 + b, 22, -36 + b); fs(ctx, '#fff4d6', p.l); }
+    if (crest === 'helmet') { ell(ctx, 13, -56 + b, 10, 8); fs(ctx, p.a, p.l); }
+    blob(ctx, [
+      function () { ell(ctx, 16, -49 + b, 10, 8); },
+      function () { ell(ctx, 25, -46 + b, 8, 5); },
+    ], p.c, p.l);
+    if (crest === 'bump') { ell(ctx, 13, -57 + b, 4, 3); fs(ctx, p.a, p.l); }
+    eye(ctx, 17, -51 + b, 4.4, A, p);
+    cheek(ctx, 20, -45 + b, 2.8);
+    smile(ctx, 28, -44 + b, 3.8, A.mouth);
+  }
+
+  function trikeLike(ctx, p, A, horns) { SPECIES.__trikeBody(ctx, p, A, horns); }
 
   var SPECIES = {
     trex: function (ctx, p, A) {
@@ -1807,7 +2110,9 @@ DB.draw = (function () {
       smile(ctx, 30, -36 + b, 5, A.mouth);
     },
 
-    trike: function (ctx, p, A) {
+    trike: function (ctx, p, A) { trikeLike(ctx, p, A, true); },
+    proto: function (ctx, p, A) { ctx.save(); ctx.scale(0.78, 0.78); trikeLike(ctx, p, A, false); ctx.restore(); },
+    __trikeBody: function (ctx, p, A, horns) {
       var b = A.bob, s = A.swing, w = A.wag;
       thick(ctx, -18, -14 + b, -18 - s, -5, 10, p.dark, p.l);
       thick(ctx, 6, -14 + b, 6 + s, -5, 10, p.dark, p.l);
@@ -1822,13 +2127,16 @@ DB.draw = (function () {
       ell(ctx, 13, -35 + b, 15, 16, -0.3); fs(ctx, p.a, p.l);
       [[8, -44], [5, -34], [12, -27]].forEach(function (q) { ell(ctx, q[0], q[1] + b, 2.6, 2.6); ctx.fillStyle = p.a2; ctx.fill(); });
       // 뿔
-      tri(ctx, 18, -37 + b, 24, -38 + b, 31, -55 + b); fs(ctx, '#fff4d6', p.l);
-      tri(ctx, 13, -37 + b, 18, -39 + b, 20, -52 + b); fs(ctx, '#fff4d6', p.l);
-      tri(ctx, 33, -31 + b, 38, -30 + b, 40, -40 + b); fs(ctx, '#fff4d6', p.l);
+      if (horns) {
+        tri(ctx, 18, -37 + b, 24, -38 + b, 31, -55 + b); fs(ctx, '#fff4d6', p.l);
+        tri(ctx, 13, -37 + b, 18, -39 + b, 20, -52 + b); fs(ctx, '#fff4d6', p.l);
+        tri(ctx, 33, -31 + b, 38, -30 + b, 40, -40 + b); fs(ctx, '#fff4d6', p.l);
+      }
       blob(ctx, [
         function () { ell(ctx, 24, -28 + b, 13, 11); },
         function () { ell(ctx, 34, -26 + b, 7, 7); },
       ], p.c, p.l);
+      if (!horns) { tri(ctx, 37, -31 + b, 45, -26 + b, 37, -21 + b); fs(ctx, p.a, p.l); }
       eye(ctx, 25, -31 + b, 5, A, p);
       cheek(ctx, 30, -22 + b, 3.3);
       smile(ctx, 36, -22 + b, 4.5, A.mouth);
@@ -1919,6 +2227,208 @@ DB.draw = (function () {
       cheek(ctx, 27, -63 + b + nb, 3);
       smile(ctx, 31, -63 + b + nb, 3.6, A.mouth);
     },
+
+    allo: function (ctx, p, A) {
+      var b = A.bob, s = A.swing, w = A.wag;
+      thick(ctx, -9, -17 + b, -9 - s, -5, 9, p.dark, p.l);
+      blob(ctx, [
+        function () { ell(ctx, -2, -29 + b, 19, 14); },
+        function () { ctx.beginPath(); ctx.moveTo(-12, -37 + b); ctx.quadraticCurveTo(-30, -33 + b + w, -44, -26 + b + w); ctx.quadraticCurveTo(-28, -19 + b, -8, -20 + b); ctx.closePath(); },
+      ], p.c, p.l);
+      ell(ctx, 3, -25 + b, 11, 8); ctx.fillStyle = p.b; ctx.fill();
+      ctx.strokeStyle = p.a; ctx.lineWidth = 3; ctx.lineCap = 'round';
+      [-14, -7, 0].forEach(function (x) { ctx.beginPath(); ctx.moveTo(x, -42 + b); ctx.lineTo(x - 3, -35 + b); ctx.stroke(); });
+      thick(ctx, 6, -17 + b, 6 + s, -5, 9, p.c, p.l);
+      thick(ctx, 10, -28 + b, 17, -22 + b, 5, p.c, p.l);
+      blob(ctx, [
+        function () { ell(ctx, 15, -43 + b, 14, 10); },
+        function () { ell(ctx, 27, -40 + b, 11, 7); },
+      ], p.c, p.l);
+      tri(ctx, 12, -50 + b, 18, -51 + b, 14, -57 + b); fs(ctx, p.a, p.l);
+      eye(ctx, 17, -45 + b, 5, A, p);
+      cheek(ctx, 22, -37 + b, 3.3);
+      smile(ctx, 31, -37 + b, 4.6, A.mouth);
+    },
+
+    carno: function (ctx, p, A) {
+      var b = A.bob, s = A.swing, w = A.wag;
+      thick(ctx, -8, -16 + b, -8 - s, -5, 9, p.dark, p.l);
+      blob(ctx, [
+        function () { ell(ctx, -2, -28 + b, 18, 14); },
+        function () { ctx.beginPath(); ctx.moveTo(-12, -36 + b); ctx.quadraticCurveTo(-30, -32 + b + w, -42, -24 + b + w); ctx.quadraticCurveTo(-26, -18 + b, -8, -19 + b); ctx.closePath(); },
+      ], p.c, p.l);
+      ell(ctx, 3, -24 + b, 11, 9); ctx.fillStyle = p.b; ctx.fill();
+      [[-12, -39], [-5, -41], [2, -41]].forEach(function (q) { ell(ctx, q[0], q[1] + b, 2.4, 2.4); ctx.fillStyle = p.a2; ctx.fill(); });
+      thick(ctx, 6, -16 + b, 6 + s, -5, 9, p.c, p.l);
+      thick(ctx, 11, -25 + b, 14, -23 + b, 4, p.c, p.l);
+      tri(ctx, 9, -48 + b, 14, -51 + b, 5, -62 + b); fs(ctx, p.a, p.l);
+      tri(ctx, 16, -51 + b, 21, -50 + b, 22, -63 + b); fs(ctx, p.a, p.l);
+      blob(ctx, [
+        function () { ell(ctx, 15, -42 + b, 13, 11); },
+        function () { ell(ctx, 24, -38 + b, 8, 8); },
+      ], p.c, p.l);
+      eye(ctx, 17, -44 + b, 5, A, p);
+      cheek(ctx, 21, -36 + b, 3.3);
+      smile(ctx, 27, -35 + b, 4.4, A.mouth);
+    },
+
+    dilo: function (ctx, p, A) {
+      var b = A.bob, s = A.swing, w = A.wag;
+      thick(ctx, -8, -17 + b, -8 - s, -5, 8, p.dark, p.l);
+      blob(ctx, [
+        function () { ell(ctx, -2, -28 + b, 16, 12); },
+        function () { ctx.beginPath(); ctx.moveTo(-10, -34 + b); ctx.quadraticCurveTo(-26, -34 + b + w, -40, -32 + b + w); ctx.quadraticCurveTo(-24, -24 + b, -8, -22 + b); ctx.closePath(); },
+        function () { ell(ctx, 9, -38 + b, 6, 9, 0.5); },
+      ], p.c, p.l);
+      ell(ctx, 2, -25 + b, 9, 7); ctx.fillStyle = p.b; ctx.fill();
+      thick(ctx, 5, -17 + b, 5 + s, -5, 8, p.c, p.l);
+      thick(ctx, 9, -28 + b, 15, -24 + b, 4, p.c, p.l);
+      ell(ctx, 10, -51 + b, 9, 5, -0.35); fs(ctx, p.a, p.l);
+      ell(ctx, 16, -52 + b, 8, 4.5, -0.2); fs(ctx, p.a2, p.l);
+      blob(ctx, [
+        function () { ell(ctx, 14, -45 + b, 11, 8.5); },
+        function () { ell(ctx, 23, -43 + b, 8, 5.5); },
+      ], p.c, p.l);
+      eye(ctx, 15, -47 + b, 4.5, A, p);
+      cheek(ctx, 19, -41 + b, 2.8);
+      smile(ctx, 26, -41 + b, 3.8, A.mouth);
+    },
+
+    giga: function (ctx, p, A) {
+      ctx.save();
+      ctx.scale(1.12, 1.1);
+      SPECIES.trex(ctx, p, A);
+      ctx.strokeStyle = p.l;
+      ctx.lineWidth = 3;
+      ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(11, -53 + A.bob); ctx.lineTo(22, -51 + A.bob); ctx.stroke();
+      ctx.restore();
+    },
+
+    galli: function (ctx, p, A) {
+      var b = A.bob, s = A.swing * 1.3, w = A.wag;
+      thick(ctx, -6, -24 + b, -6 - s, -5, 7, p.dark, p.l);
+      blob(ctx, [
+        function () { ell(ctx, -2, -34 + b, 15, 11); },
+        function () { ctx.beginPath(); ctx.moveTo(-12, -38 + b); ctx.quadraticCurveTo(-28, -40 + b + w, -40, -38 + b + w); ctx.quadraticCurveTo(-26, -30 + b, -10, -29 + b); ctx.closePath(); },
+        function () { ell(ctx, 10, -44 + b, 5, 12, 0.35); },
+      ], p.c, p.l);
+      ell(ctx, 2, -31 + b, 9, 6); ctx.fillStyle = p.b; ctx.fill();
+      thick(ctx, 4, -24 + b, 4 + s, -5, 7, p.c, p.l);
+      thick(ctx, 8, -34 + b, 14, -30 + b, 3.5, p.c, p.l);
+      tri(ctx, 20, -58 + b, 30, -55 + b, 20, -52 + b); fs(ctx, p.a, p.l);
+      blob(ctx, [function () { ell(ctx, 16, -56 + b, 8, 7); }], p.c, p.l);
+      eye(ctx, 17, -58 + b, 3.8, A, p);
+      cheek(ctx, 19, -52 + b, 2.4);
+    },
+
+    ovi: function (ctx, p, A) {
+      var b = A.bob, s = A.swing, w = A.wag;
+      thick(ctx, -6, -15 + b, -6 - s, -4, 7, p.dark, p.l);
+      tri(ctx, -28, -33 + b + w, -42, -38 + b + w, -36, -26 + b + w); fs(ctx, p.a, p.l);
+      blob(ctx, [
+        function () { ell(ctx, -2, -26 + b, 14, 12); },
+        function () { ctx.beginPath(); ctx.moveTo(-10, -32 + b); ctx.quadraticCurveTo(-24, -34 + b + w, -34, -30 + b + w); ctx.quadraticCurveTo(-24, -22 + b, -10, -20 + b); ctx.closePath(); },
+      ], p.c, p.l);
+      ell(ctx, 2, -23 + b, 8, 7); ctx.fillStyle = p.b; ctx.fill();
+      thick(ctx, 4, -15 + b, 4 + s, -4, 7, p.c, p.l);
+      ctx.beginPath(); ctx.moveTo(3, -31 + b); ctx.lineTo(17, -22 + b); ctx.lineTo(1, -18 + b); ctx.closePath(); fs(ctx, p.a, p.l);
+      ell(ctx, 9, -47 + b, 5, 7, -0.2); fs(ctx, p.a, p.l);
+      blob(ctx, [function () { ell(ctx, 11, -38 + b, 9, 8); }], p.c, p.l);
+      ctx.beginPath(); ctx.moveTo(17, -41 + b); ctx.quadraticCurveTo(26, -40 + b, 24, -33 + b); ctx.lineTo(17, -34 + b); ctx.closePath(); fs(ctx, '#ffcf6b', p.l);
+      eye(ctx, 12, -40 + b, 4.2, A, p);
+      cheek(ctx, 14, -34 + b, 2.6);
+    },
+
+    therizino: function (ctx, p, A) {
+      var b = A.bob, s = A.swing, w = A.wag;
+      thick(ctx, -6, -14 + b, -6 - s, -5, 10, p.dark, p.l);
+      blob(ctx, [
+        function () { ell(ctx, -2, -30 + b, 17, 18); },
+        function () { ctx.beginPath(); ctx.moveTo(-14, -34 + b); ctx.quadraticCurveTo(-26, -30 + b + w, -32, -24 + b + w); ctx.quadraticCurveTo(-22, -20 + b, -10, -20 + b); ctx.closePath(); },
+        function () { ell(ctx, 9, -46 + b, 5.5, 11, 0.3); },
+      ], p.c, p.l);
+      ell(ctx, 2, -26 + b, 11, 12); ctx.fillStyle = p.b; ctx.fill();
+      thick(ctx, 4, -14 + b, 4 + s, -5, 10, p.c, p.l);
+      thick(ctx, 6, -36 + b, 16, -28 + b, 6, p.c, p.l);
+      thick(ctx, 16, -28 + b, 32, -22 + b, 3, p.a, p.l);
+      thick(ctx, 16, -29 + b, 33, -27 + b, 3, p.a, p.l);
+      thick(ctx, 15, -27 + b, 29, -17 + b, 3, p.a, p.l);
+      tri(ctx, 19, -58 + b, 26, -56 + b, 19, -53 + b); fs(ctx, '#ffcf6b', p.l);
+      blob(ctx, [function () { ell(ctx, 15, -57 + b, 8, 6.5); }], p.c, p.l);
+      eye(ctx, 16, -59 + b, 3.8, A, p);
+      cheek(ctx, 18, -53 + b, 2.4);
+    },
+
+    compy: function (ctx, p, A) {
+      ctx.save();
+      ctx.scale(0.78, 0.78);
+      SPECIES.raptor(ctx, p, A);
+      ctx.restore();
+    },
+
+    diplo: function (ctx, p, A) {
+      var b = A.bob, s = A.swing, w = A.wag;
+      thick(ctx, -20, -18 + b, -20 - s, -5, 10, p.dark, p.l);
+      thick(ctx, 2, -18 + b, 2 + s, -5, 10, p.dark, p.l);
+      blob(ctx, [
+        function () { ell(ctx, -6, -31 + b, 23, 14); },
+        function () { ctx.beginPath(); ctx.moveTo(-24, -36 + b); ctx.quadraticCurveTo(-48, -34 + b + w, -72, -18 + b + w * 1.5); ctx.quadraticCurveTo(-46, -26 + b, -22, -24 + b); ctx.closePath(); },
+        function () { ctx.beginPath(); ctx.moveTo(6, -40 + b); ctx.quadraticCurveTo(24, -50 + b, 38, -57 + b); ctx.lineTo(41, -49 + b); ctx.quadraticCurveTo(26, -38 + b, 12, -27 + b); ctx.closePath(); },
+      ], p.c, p.l);
+      ell(ctx, -4, -25 + b, 15, 7); ctx.fillStyle = p.b; ctx.fill();
+      [[-16, -38], [-6, -42], [4, -40]].forEach(function (q) { ell(ctx, q[0], q[1] + b, 3.4, 2.4); ctx.fillStyle = p.a; ctx.fill(); });
+      thick(ctx, -10, -18 + b, -10 + s, -5, 10, p.c, p.l);
+      thick(ctx, 12, -18 + b, 12 - s, -5, 10, p.c, p.l);
+      blob(ctx, [
+        function () { ell(ctx, 40, -54 + b, 8, 6); },
+        function () { ell(ctx, 46, -52 + b, 5, 4.5); },
+      ], p.c, p.l);
+      eye(ctx, 41, -56 + b, 3.6, A, p);
+      cheek(ctx, 44, -51 + b, 2.4);
+      smile(ctx, 48, -50 + b, 3, A.mouth);
+    },
+
+    argentino: function (ctx, p, A) {
+      ctx.save();
+      ctx.scale(1.08, 1.06);
+      SPECIES.brachio(ctx, p, A);
+      ctx.restore();
+    },
+
+    amarga: function (ctx, p, A) {
+      var b = A.bob, s = A.swing, w = A.wag;
+      thick(ctx, -18, -16 + b, -18 - s, -5, 10, p.dark, p.l);
+      thick(ctx, 4, -16 + b, 4 + s, -5, 10, p.dark, p.l);
+      var pts = [[-14, -39], [-6, -41], [2, -41], [9, -40], [15, -44], [20, -48], [24, -51]];
+      ctx.lineCap = 'round';
+      [[3, p.a2], [0, p.a]].forEach(function (row) {
+        pts.forEach(function (q) {
+          ctx.beginPath(); ctx.moveTo(q[0] + row[0], q[1] + b); ctx.lineTo(q[0] + row[0] - 4, q[1] - 13 + b);
+          ctx.strokeStyle = p.l; ctx.lineWidth = 5; ctx.stroke();
+          ctx.strokeStyle = row[1]; ctx.lineWidth = 3; ctx.stroke();
+        });
+      });
+      blob(ctx, [
+        function () { ell(ctx, -4, -28 + b, 21, 13); },
+        function () { ctx.beginPath(); ctx.moveTo(-22, -32 + b); ctx.quadraticCurveTo(-40, -28 + b + w, -50, -16 + b + w); ctx.quadraticCurveTo(-34, -20 + b, -20, -22 + b); ctx.closePath(); },
+        function () { ctx.beginPath(); ctx.moveTo(8, -36 + b); ctx.quadraticCurveTo(20, -42 + b, 26, -51 + b); ctx.lineTo(31, -46 + b); ctx.quadraticCurveTo(22, -32 + b, 12, -24 + b); ctx.closePath(); },
+      ], p.c, p.l);
+      ell(ctx, -2, -23 + b, 14, 6); ctx.fillStyle = p.b; ctx.fill();
+      thick(ctx, -8, -16 + b, -8 + s, -5, 10, p.c, p.l);
+      thick(ctx, 12, -16 + b, 12 - s, -5, 10, p.c, p.l);
+      blob(ctx, [
+        function () { ell(ctx, 30, -50 + b, 8, 6); },
+        function () { ell(ctx, 36, -48 + b, 5, 4.5); },
+      ], p.c, p.l);
+      eye(ctx, 31, -52 + b, 3.6, A, p);
+      cheek(ctx, 34, -47 + b, 2.4);
+      smile(ctx, 38, -46 + b, 3, A.mouth);
+    },
+
+    iguano: function (ctx, p, A) { orn(ctx, p, A, null, true); },
+    coryth: function (ctx, p, A) { orn(ctx, p, A, 'helmet', false); },
+    maia: function (ctx, p, A) { orn(ctx, p, A, 'bump', false); },
 
     raptor: function (ctx, p, A) {
       var b = A.bob, s = A.swing, w = A.wag;
@@ -2124,6 +2634,21 @@ DB.draw = (function () {
     ctx.fill();
   }
 
+  function pine(ctx, x, y, h) {
+    ctx.fillStyle = '#8a6a4a';
+    ctx.fillRect(x - 5, y - h * 0.22, 10, h * 0.22);
+    for (var i = 0; i < 3; i++) {
+      var ty = y - h * 0.2 - i * h * 0.25;
+      var hw = h * (0.32 - i * 0.07);
+      tri(ctx, x - hw, ty, x + hw, ty, x, ty - h * 0.36);
+      ctx.fillStyle = '#4f8f6f';
+      ctx.fill();
+      tri(ctx, x - hw * 0.45, ty - h * 0.2, x + hw * 0.45, ty - h * 0.2, x, ty - h * 0.36);
+      ctx.fillStyle = '#ffffff';
+      ctx.fill();
+    }
+  }
+
   var bgCache = {};
   function bgCanvas(id) {
     if (bgCache[id]) return bgCache[id];
@@ -2179,6 +2704,49 @@ DB.draw = (function () {
       cactus(ctx, 70, D.groundY, 60);
       cactus(ctx, 520, D.groundY, 46);
       cactus(ctx, 900, D.groundY, 70);
+    } else if (id === 'snow') {
+      ctx.fillStyle = 'rgba(255,255,255,0.95)';
+      ell(ctx, 790, 95, 34, 34); ctx.fill();
+      [[90, 210, 170], [600, 170, 200], [330, 250, 130]].forEach(function (m) {
+        tri(ctx, m[0], D.groundY, m[0] + m[2] * 1.4, D.groundY, m[0] + m[2] * 0.7, m[1]);
+        ctx.fillStyle = wd.far; ctx.fill();
+        tri(ctx, m[0] + m[2] * 0.52, m[1] + 50, m[0] + m[2] * 0.88, m[1] + 50, m[0] + m[2] * 0.7, m[1]);
+        ctx.fillStyle = '#ffffff'; ctx.fill();
+      });
+      hills(ctx, D.groundY - 12, 22, wd.near, 9, 0.013);
+      pine(ctx, 55, D.groundY, 130);
+      pine(ctx, 500, D.groundY, 95);
+      pine(ctx, 910, D.groundY, 150);
+    } else if (id === 'swamp') {
+      ctx.fillStyle = 'rgba(255,255,220,0.8)';
+      ell(ctx, 820, 90, 32, 32); ctx.fill();
+      hills(ctx, D.groundY - 50, 36, wd.far, 17, 0.009);
+      hills(ctx, D.groundY - 12, 24, wd.near, 23, 0.016);
+      roundTree(ctx, 60, D.groundY, 170, '#4f7f55');
+      roundTree(ctx, 900, D.groundY, 150, '#5a8a5f');
+      ctx.strokeStyle = '#4f7a3a'; ctx.lineWidth = 3; ctx.lineCap = 'round';
+      for (var rd = 0; rd < 14; rd++) {
+        var rx = 140 + rd * 52 + r() * 20;
+        ctx.beginPath(); ctx.moveTo(rx, D.groundY); ctx.lineTo(rx + r() * 8 - 4, D.groundY - 24 - r() * 20); ctx.stroke();
+        if (rd % 3 === 0) { ctx.fillStyle = '#8a5a3a'; ell(ctx, rx + 2, D.groundY - 34, 3, 7); ctx.fill(); }
+      }
+    } else if (id === 'night') {
+      for (var st = 0; st < 70; st++) {
+        ctx.fillStyle = 'rgba(255,255,230,' + (0.4 + r() * 0.6) + ')';
+        ell(ctx, r() * D.W, r() * 300, 1 + r() * 1.6, 1 + r() * 1.6); ctx.fill();
+      }
+      ctx.save();
+      ell(ctx, 160, 95, 32, 32); ctx.clip();
+      ctx.beginPath();
+      ctx.arc(160, 95, 32, 0, Math.PI * 2);
+      ctx.arc(174, 86, 28, 0, Math.PI * 2);
+      ctx.fillStyle = '#fff6c8';
+      ctx.fill('evenodd');
+      ctx.restore();
+      hills(ctx, D.groundY - 55, 40, wd.far, 31, 0.008);
+      hills(ctx, D.groundY - 12, 24, wd.near, 37, 0.014);
+      roundTree(ctx, 70, D.groundY, 160, '#2c4a4a');
+      roundTree(ctx, 890, D.groundY, 180, '#2f5050');
     } else {
       ctx.fillStyle = 'rgba(255,250,200,0.95)';
       ell(ctx, 820, 90, 36, 36); ctx.fill();
@@ -2217,6 +2785,14 @@ DB.draw = (function () {
       for (var k = 0; k < 5; k++) { ell(ctx, 80 + k * 200 + r() * 40, D.groundY + 44 + r() * 14, 26, 5); ctx.fill(); }
     }
 
+    if (id === 'swamp') {
+      ctx.fillStyle = '#4f8f8a';
+      ell(ctx, 300, D.groundY + 42, 80, 11); ctx.fill();
+      ell(ctx, 700, D.groundY + 50, 60, 9); ctx.fill();
+      ctx.fillStyle = '#7fc46a';
+      ell(ctx, 280, D.groundY + 40, 10, 4); ctx.fill();
+      ell(ctx, 715, D.groundY + 48, 9, 3.5); ctx.fill();
+    }
     wd.platforms.forEach(function (pl) { platform(ctx, pl, wd, id); });
     bgCache[id] = c;
     return c;
@@ -2224,6 +2800,27 @@ DB.draw = (function () {
 
   // 움직이는 배경 (구름, 화산 불씨)
   function bgDynamic(ctx, id, t) {
+    if (id === 'snow') {
+      ctx.fillStyle = 'rgba(255,255,255,0.9)';
+      for (var sf = 0; sf < 45; sf++) {
+        var fx = ((sf * 97 + Math.sin(t * 0.8 + sf) * 25) % D.W + D.W) % D.W;
+        var fy = (t * (28 + (sf % 5) * 9) + sf * 53) % D.H;
+        ell(ctx, fx, fy, 2 + (sf % 3) * 0.7, 2 + (sf % 3) * 0.7); ctx.fill();
+      }
+      return;
+    }
+    if (id === 'swamp' || id === 'night') {
+      for (var ff = 0; ff < 12; ff++) {
+        var gx = ((ff * 131 + Math.sin(t * 0.5 + ff * 2) * 60) % D.W + D.W) % D.W;
+        var gy = D.groundY - 60 - (ff * 37 % 220) + Math.sin(t * 1.3 + ff) * 18;
+        var ga = 0.35 + 0.35 * Math.sin(t * 3 + ff * 1.7);
+        ctx.fillStyle = 'rgba(220,255,120,' + Math.max(0.05, ga * 0.4) + ')';
+        ell(ctx, gx, gy, 7, 7); ctx.fill();
+        ctx.fillStyle = 'rgba(240,255,170,' + Math.max(0.1, ga) + ')';
+        ell(ctx, gx, gy, 2.4, 2.4); ctx.fill();
+      }
+      if (id === 'night') return;
+    }
     if (id === 'volcano') {
       for (var i = 0; i < 14; i++) {
         var px = (i * 137 + Math.sin(t + i) * 30) % D.W;
@@ -2315,14 +2912,12 @@ DB.draw = (function () {
     // 가시 방패
     if (f.shieldT > 0 && !f.dead) {
       var cx = f.x, cy = f.y - f.h * 0.5, rr = Math.max(f.w, f.h) * 0.68;
-      ctx.fillStyle = 'rgba(255,140,200,0.18)';
-      ctx.strokeStyle = 'rgba(255,120,190,0.85)';
-      ctx.lineWidth = 3;
+      var sc = f.shieldColor || '#ff7eb0';
       ell(ctx, cx, cy, rr, rr * 0.9);
-      ctx.fill();
-      ctx.stroke();
-      ctx.fillStyle = '#ff7eb0';
-      for (var k = 0; k < 8; k++) {
+      ctx.globalAlpha = alpha * 0.2; ctx.fillStyle = sc; ctx.fill();
+      ctx.globalAlpha = alpha * 0.9; ctx.strokeStyle = sc; ctx.lineWidth = 3; ctx.stroke();
+      ctx.globalAlpha = alpha;
+      for (var k = 0; k < (f.shieldDmg > 0 ? 8 : 0); k++) {
         var a = k * Math.PI / 4 + t * 2;
         var bx = cx + Math.cos(a) * rr, by = cy + Math.sin(a) * rr * 0.9;
         tri(ctx, bx + Math.cos(a + 1.57) * 5, by + Math.sin(a + 1.57) * 5, bx - Math.cos(a + 1.57) * 5, by - Math.sin(a + 1.57) * 5, bx + Math.cos(a) * 10, by + Math.sin(a) * 10);
@@ -2414,12 +3009,48 @@ DB.draw = (function () {
       ctx.lineWidth = 1.5;
       ctx.beginPath(); ctx.moveTo(-14, 0); ctx.lineTo(12, 0); ctx.stroke();
       ctx.restore();
+    } else if (p.kind === 'venom') {
+      ell(ctx, p.x, p.y, p.r, p.r * 0.85);
+      fs(ctx, p.color || '#7be35a', '#3c8a2a');
+      ell(ctx, p.x + p.r * 0.3, p.y - p.r * 0.3, p.r * 0.25, p.r * 0.2);
+      ctx.fillStyle = 'rgba(255,255,255,0.8)';
+      ctx.fill();
+    } else if (p.kind === 'sonic') {
+      var sd = p.vx >= 0 ? 0 : Math.PI;
+      ctx.lineCap = 'round';
+      for (var k = 0; k < 3; k++) {
+        ctx.strokeStyle = 'rgba(255,255,255,' + (0.95 - k * 0.25) + ')';
+        ctx.lineWidth = 5 - k;
+        ctx.beginPath();
+        ctx.arc(p.x - (p.vx >= 0 ? 1 : -1) * k * 10, p.y, p.r * (1 - k * 0.2), sd - 0.9, sd + 0.9);
+        ctx.stroke();
+      }
+    } else if (p.kind === 'pebble') {
+      ell(ctx, p.x, p.y, 6, 5);
+      fs(ctx, p.color || '#c9a46a', '#7a6040');
+    } else if (p.kind === 'spine') {
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(Math.atan2(p.vy, p.vx));
+      tri(ctx, -12, -4, -12, 4, 14, 0);
+      fs(ctx, p.color || '#d97a5a', '#6a3a28');
+      ctx.restore();
+    } else if (p.kind === 'egg') {
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.t * 8);
+      ell(ctx, 0, 0, 10, 12.5);
+      fs(ctx, '#fff8e6', '#a08060');
+      ctx.fillStyle = '#9ed0ff';
+      ell(ctx, -3, -4, 2.6, 2.6); ctx.fill();
+      ell(ctx, 4, 3, 2.2, 2.2); ctx.fill();
+      ctx.restore();
     } else if (p.kind === 'boulder') {
       ctx.save();
       ctx.translate(p.x, p.y - p.r);
       ctx.rotate(p.x / p.r);
       ell(ctx, 0, 0, p.r, p.r);
-      fs(ctx, '#a8957e', '#5f5244');
+      fs(ctx, p.color || '#a8957e', '#5f5244');
       ctx.fillStyle = '#8a7a66';
       ell(ctx, -p.r * 0.3, -p.r * 0.25, p.r * 0.25, p.r * 0.2); ctx.fill();
       ell(ctx, p.r * 0.35, p.r * 0.3, p.r * 0.2, p.r * 0.16); ctx.fill();
@@ -2458,6 +3089,16 @@ DB.draw = (function () {
     if (p.kind === 'text') {
       ctx.globalAlpha = Math.min(1, k * 2);
       outlined(ctx, p.text, p.x, p.y, p.size, p.color, 'rgba(40,30,50,0.85)');
+      ctx.globalAlpha = 1;
+    } else if (p.kind === 'slash') {
+      ctx.globalAlpha = k;
+      ctx.strokeStyle = p.color;
+      ctx.lineWidth = 2 + 5 * k;
+      ctx.lineCap = 'round';
+      var a0 = p.face > 0 ? -1.1 : Math.PI - 1.1;
+      ctx.beginPath();
+      ctx.arc(p.x - p.face * p.r * 0.5, p.y, p.r, a0, a0 + 2.2);
+      ctx.stroke();
       ctx.globalAlpha = 1;
     } else if (p.kind === 'star') {
       ctx.globalAlpha = k;
@@ -2522,7 +3163,7 @@ DB.draw = (function () {
     ctx.fill();
     ctx.clip();
     var s = 0.62 * Math.min(1, 58 / f.sp.h);
-    dino(ctx, f.sp, right ? px + w - 31 : px + 31, y + 48 + (f.sp.id === 'brachio' ? 6 : 0), { face: right ? -1 : 1, scale: s, t: t, hurt: f.hurtT > 0, dead: f.dead, deadT: 0 });
+    dino(ctx, f.sp, right ? px + w - 31 : px + 31, y + 48 + (f.sp.h > 60 ? 6 : 0), { face: right ? -1 : 1, scale: s, t: t, hurt: f.hurtT > 0, dead: f.dead, deadT: 0 });
     ctx.restore();
     var tx = right ? px + w - 66 : px + 66;
     var G = DB.game.G;
@@ -2657,8 +3298,8 @@ DB.draw = (function () {
   // ---------- 메뉴 배경 (공룡들이 산책) ----------
   var walkers = null;
   function initWalkers() {
-    walkers = DB.playable().map(function (sp, i) {
-      return { sp: sp, x: 120 + i * 170, y: D.groundY, vy: 0, dir: i % 2 ? -1 : 1, spd: 50 + Math.random() * 40, t: Math.random() * 5, hopT: 1 + Math.random() * 4 };
+    walkers = DB.playable().slice().sort(function () { return Math.random() - 0.5; }).slice(0, 6).map(function (sp, i) {
+      return { sp: sp, x: 100 + i * 150, y: D.groundY, vy: 0, dir: i % 2 ? -1 : 1, spd: 50 + Math.random() * 40, t: Math.random() * 5, hopT: 1 + Math.random() * 4 };
     });
   }
   function renderMenu(ctx, view, t, dt) {
@@ -2699,7 +3340,7 @@ DB.draw = (function () {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     var s = Math.min(cw / 110, ch / 90) * dpr * (opts && opts.zoom || 1);
     ctx.setTransform(s, 0, 0, s, canvas.width / 2 + 2 * s, canvas.height - 8 * dpr);
-    dino(ctx, sp, 0, 0, { face: 1, t: t || 0, run: opts && opts.run || 0, mouth: opts && opts.mouth, scale: sp.h > 60 ? 0.85 : 1 });
+    dino(ctx, sp, 0, 0, { face: 1, t: t || 0, run: opts && opts.run || 0, mouth: opts && opts.mouth, scale: Math.min(1, 66 / sp.h, 72 / sp.w) });
   }
 
   return { dino: dino, render: render, renderMenu: renderMenu, preview: preview, bgCanvas: bgCanvas };
@@ -2945,7 +3586,7 @@ DB.ui = (function () {
   var S = DB.save;
   var $ = function (id) { return document.getElementById(id); };
   var SCREENS = ['title', 'stages', 'select', 'result', 'pause', 'help'];
-  var WORLD_ICON = { jungle: '🌴', desert: '🌵', volcano: '🌋', meadow: '🌼' };
+  var WORLD_ICON = { jungle: '🌴', desert: '🌵', volcano: '🌋', meadow: '🌼', snow: '❄️', swamp: '🐸', night: '🌙' };
 
   var state = 'title'; // title | stages | select | play | result | help
   var paused = false;
@@ -3023,6 +3664,16 @@ DB.ui = (function () {
     buildCards();
     renderDetail();
     show('select');
+    updateCards();
+    scrollToFocus();
+  }
+
+  function scrollToFocus() {
+    cardCanvases.forEach(function (o) {
+      if (o.sp.id !== sel.focus) return;
+      var row = $('dinoRow');
+      row.scrollLeft = Math.max(0, o.el.offsetLeft - row.clientWidth / 2 + o.el.offsetWidth / 2);
+    });
   }
 
   function selTitle() {
@@ -3069,7 +3720,7 @@ DB.ui = (function () {
       tag.className = 'tag';
       tag.textContent = '';
       if (sel.mode === 'pvp' && sel.picks[0] && sel.picks[0].sp === o.sp.id) { tag.textContent = '1P'; tag.classList.add('p1'); }
-      DB.draw.preview(o.cv, o.sp, 0.5, { zoom: 0.95 });
+      if (!o.drawn && o.cv.clientWidth) { DB.draw.preview(o.cv, o.sp, 0.5, { zoom: 0.95 }); o.drawn = true; }
     });
   }
 
@@ -3084,9 +3735,9 @@ DB.ui = (function () {
     $('dName').textContent = sp.emoji + ' ' + sp.name;
     $('dDesc').textContent = sp.desc;
     $('dStats').innerHTML =
-      statRow('체력', (sp.hp - 60) / 100) +
-      statRow('힘', (sp.atk - 5) / 6) +
-      statRow('빠르기', (sp.spd - 0.6) / 0.6) +
+      statRow('체력', (sp.hp - 40) / 140) +
+      statRow('힘', (sp.atk - 4) / 9) +
+      statRow('빠르기', (sp.spd - 0.6) / 0.8) +
       statRow('점프', ((sp.maxJumps || 2) - 1) / 2.2 + (sp.jump - 0.9) * 0.6);
 
     var box = $('dSkills');
@@ -3211,7 +3862,7 @@ DB.ui = (function () {
         if (info.first) gain *= D.reward.firstClearMul;
         S.addCoins(gain);
         title.textContent = D.stages[idx].final ? '🏆 모험 완료!' : '🎉 승리!';
-        text.textContent = D.stages[idx].final ? '화산 대왕을 물리쳤어요! 최고의 공룡이에요!' : '스테이지 ' + (idx + 1) + ' · ' + D.stages[idx].name + ' 클리어!';
+        text.textContent = D.stages[idx].final ? D.stages[idx].boss + '을(를) 물리치고 모든 스테이지를 깼어요! 최고의 공룡이에요!' : '스테이지 ' + (idx + 1) + ' · ' + D.stages[idx].name + ' 클리어!';
         coins.textContent = '🪙 +' + gain + (info.first ? ' (처음 깨서 두 배!)' : '');
         if (info.newDinos.length) nw.textContent = '🥚 새 친구: ' + info.newDinos.map(function (s) { return s.name; }).join(', ') + '이(가) 열렸어요!';
         DB.sound.play('coin');
@@ -3312,6 +3963,12 @@ DB.ui = (function () {
       b.addEventListener('click', function () { click(); show(b.dataset.go); });
     });
     $('selBack').addEventListener('click', onSelBack);
+    $('dinoRow').addEventListener('wheel', function (e) {
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        this.scrollLeft += e.deltaY;
+        e.preventDefault();
+      }
+    }, { passive: false });
     $('goBtn').addEventListener('click', onGo);
     $('pauseBtn').addEventListener('click', function () { click(); togglePause(); });
     $('pResume').addEventListener('click', function () { click(); resume(); });
