@@ -1,0 +1,17 @@
+{
+  "name": "곤충 로봇 배틀",
+  "short_name": "곤충 로봇",
+  "description": "곤충에 로봇 아이템을 붙여서 싸우는 배틀 게임",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#2d4a6b",
+  "theme_color": "#2d4a6b",
+  "lang": "ko",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
