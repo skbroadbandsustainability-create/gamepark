@@ -252,6 +252,18 @@
 (function () {
   'use strict';
 
+  // 오래된 브라우저(예전 아이패드/크롬)에는 roundRect가 없어서 직접 만들어 줘요
+  if (window.CanvasRenderingContext2D && !CanvasRenderingContext2D.prototype.roundRect) {
+    CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+      r = Math.max(0, Math.min(typeof r === 'number' ? r : (r && r[0]) || 0, Math.abs(w) / 2, Math.abs(h) / 2));
+      this.moveTo(x + r, y); this.lineTo(x + w - r, y); this.quadraticCurveTo(x + w, y, x + w, y + r);
+      this.lineTo(x + w, y + h - r); this.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      this.lineTo(x + r, y + h); this.quadraticCurveTo(x, y + h, x, y + h - r);
+      this.lineTo(x, y + r); this.quadraticCurveTo(x, y, x + r, y); this.closePath();
+      return this;
+    };
+  }
+
   /* ================= 데이터 ================= */
   var W = 960, H = 560, WALL = 34;
 
@@ -1677,11 +1689,13 @@
   var last = performance.now(), clock = 0;
   function frame(now) {
     var dt = Math.min(0.033, (now - last) / 1000); last = now; clock += dt;
-    if (G && !paused) update(dt * (G && G.phase === 'ko' ? 0.5 : 1));
-    render();
-    if (current === 'garage') drawPreview(clock, dt);
-    if (current === 'title') drawTitleBot(clock);
-    requestAnimationFrame(frame);
+    requestAnimationFrame(frame); // 한 번 오류가 나도 게임이 멈추지 않게 먼저 예약
+    try {
+      if (G && !paused) update(dt * (G && G.phase === 'ko' ? 0.5 : 1));
+      render();
+      if (current === 'garage') drawPreview(clock, dt);
+      if (current === 'title') drawTitleBot(clock);
+    } catch (e) { if (window.console) console.error(e); }
   }
   requestAnimationFrame(frame);
 
