@@ -33,9 +33,9 @@ export const GAMES: GameDef[] = [
   },
   {
     id: 'bug-robot',
-    title: '곤충 로봇 배틀',
+    title: '곤충 로봇 배틀 3D',
     emoji: '🪲',
-    description: '곤충에 로봇 아이템(드릴, 로켓, 바퀴…)을 붙여서 싸우는 배틀 게임 (리그 12스테이지, 2인 대전)',
+    description: '곤충에 로봇 아이템(드릴, 로켓, 바퀴…)을 붙여서 싸우는 3D 배틀 게임 (리그 12스테이지, 2인 대전)',
     gradient: 'from-sky-300 to-amber-300',
     status: 'ready',
     href: `${import.meta.env.BASE_URL}bug-robot/`,
