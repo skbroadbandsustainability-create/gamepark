@@ -92,6 +92,9 @@
     .it .em { font-size: 34px; line-height: 1.2; }
     .it small { display: block; color: var(--sub); font-size: 12px; line-height: 1.25; min-height: 30px; }
     .it .price { display: inline-block; margin-top: 4px; padding: 3px 10px; border-radius: 99px; background: #ffd36b; font-size: 14px; }
+    .it .stars { color: #ffb020; font-size: 18px; }
+    .it .stars i { color: #d0d6e2; font-style: normal; }
+    .it.skc { min-height: 190px; }
     .it .tag { display: inline-block; margin-top: 4px; padding: 3px 10px; border-radius: 99px; background: #d7f5d0; font-size: 14px; color: #2c7a35; }
     .pal { display: flex; flex-wrap: wrap; gap: 10px; }
     .pal button { width: 52px; height: 52px; border-radius: 50%; border: 4px solid #fff; box-shadow: 0 3px 0 rgba(0,0,0,.25); font-size: 13px; }
@@ -130,6 +133,7 @@
     .tb { position: absolute; width: 78px; height: 78px; border-radius: 50%; pointer-events: auto; touch-action: none; font-size: 32px; display: grid; place-items: center; box-shadow: 0 4px 0 rgba(0,0,0,.25); color: #fff; }
     .tb.atk { background: rgba(255, 110, 90, .85); }
     .tb.sk { background: rgba(110, 120, 255, .85); width: 66px; height: 66px; font-size: 26px; }
+    .tb.sk2 { background: rgba(180, 90, 230, .85); }
     .tb.down { transform: scale(.92); }
     .tb .cdm { position: absolute; inset: 0; border-radius: 50%; pointer-events: none; }
     #pauseBtn { position: fixed; top: calc(8px + var(--safeT)); left: 50%; transform: translateX(-50%); margin-top: 34px; padding: 6px 12px; font-size: 18px; border-radius: 14px; background: rgba(255,255,255,.7); }
@@ -188,6 +192,7 @@
     <div class="gr">
       <div class="tabs" id="tabs">
         <button data-tab="insect" class="on">🐞 곤충</button>
+        <button data-tab="skill">✨ 기술</button>
         <button data-tab="head">📡 머리</button>
         <button data-tab="back">🚀 등</button>
         <button data-tab="legs">🛞 다리</button>
@@ -222,7 +227,7 @@
   </div>
   <div style="width:min(420px,100%);margin:10px auto 0">
     <button class="big go" id="pvpGo">⚔️ 대전 시작!</button>
-    <p style="color:#dfeeff;text-align:center;margin:4px 0;font-size:15px">키보드: 1P W A S D 이동 · F 공격 · G 기술 / 2P 방향키 이동 · K 공격 · L 기술</p>
+    <p style="color:#dfeeff;text-align:center;margin:4px 0;font-size:15px">키보드: 1P W A S D 이동 · F 공격 · G 기술1 · H 기술2 / 2P 방향키 이동 · K 공격 · L 기술1 · ; 기술2</p>
   </div>
 </div>
 
@@ -284,30 +289,44 @@
   var INSECTS = {
     stag: { name: '사슴벌레', color: '#c0563a', hp: 110, speed: 225, mass: 1.2, price: 0, desc: '큰 집게로 꽉 집어요',
       atk: { type: 'melee', name: '집게 집기', dmg: 11, range: 30, arc: 1.7, kb: 380, cd: 0.5 },
-      skill: { id: 'grab', name: '꽉 집어 던지기', icon: '🦾', cd: 6 } },
+      skill: { id: 'grab', name: '꽉 집어 던지기', icon: '🦾', cd: 6 }, skill2: { id: 'combo', name: '집게 연타', icon: '✂️', cd: 6.5 } },
     rhino: { name: '장수풍뎅이', color: '#8a5a32', hp: 130, speed: 205, mass: 1.5, price: 0, desc: '긴 뿔로 들이받아요',
       atk: { type: 'melee', name: '뿔 치기', dmg: 9, range: 30, arc: 1.3, kb: 560, cd: 0.55 },
-      skill: { id: 'charge', name: '뿔 돌진', icon: '💨', cd: 5.5 } },
+      skill: { id: 'charge', name: '뿔 돌진', icon: '💨', cd: 5.5 }, skill2: { id: 'quake', name: '땅 흔들기', icon: '🌋', cd: 8 } },
     ant: { name: '개미', color: '#d23c3c', hp: 95, speed: 245, mass: 0.9, price: 0, desc: '친구 개미를 불러요',
       atk: { type: 'melee', name: '와앙 물기', dmg: 8, range: 22, arc: 1.5, kb: 230, cd: 0.38 },
-      skill: { id: 'friends', name: '개미 친구 부르기', icon: '🐜', cd: 9 } },
+      skill: { id: 'friends', name: '개미 친구 부르기', icon: '🐜', cd: 9 }, skill2: { id: 'acid', name: '개미산 발사', icon: '🧪', cd: 5.5 } },
     ladybug: { name: '무당벌레', color: '#e8352f', hp: 145, speed: 200, mass: 1.4, price: 150, desc: '단단한 등껍질 방패',
       atk: { type: 'melee', name: '몸통 박치기', dmg: 8, range: 20, arc: 1.9, kb: 330, cd: 0.45 },
-      skill: { id: 'shell', name: '등껍질 방패', icon: '🛡️', cd: 8 } },
+      skill: { id: 'shell', name: '등껍질 방패', icon: '🛡️', cd: 8 }, skill2: { id: 'bombs', name: '점박이 폭탄', icon: '💣', cd: 7 } },
     bee: { name: '꿀벌', color: '#f2b318', hp: 85, speed: 255, mass: 0.8, price: 220, desc: '멀리서 벌침을 쏴요',
       atk: { type: 'shot', name: '벌침 발사', dmg: 6, spd: 640, life: 0.9, cd: 0.42, col: '#ffe04a' },
-      skill: { id: 'swarm', name: '벌침 소나기', icon: '🐝', cd: 6 } },
+      skill: { id: 'swarm', name: '벌침 소나기', icon: '🐝', cd: 6 }, skill2: { id: 'bigsting', name: '왕 독침', icon: '📌', cd: 6 } },
     firefly: { name: '반딧불이', color: '#3d9c5a', hp: 90, speed: 240, mass: 0.85, price: 260, desc: '번쩍! 상대를 멈춰요',
       atk: { type: 'shot', name: '빛 구슬', dmg: 7, spd: 520, life: 1.0, cd: 0.5, col: '#c8ff6a' },
-      skill: { id: 'flash', name: '번쩍 섬광', icon: '💡', cd: 7.5 } },
+      skill: { id: 'flash', name: '번쩍 섬광', icon: '💡', cd: 7.5 }, skill2: { id: 'beam', name: '빛 레이저', icon: '🔆', cd: 6.5 } },
     mantis: { name: '사마귀', color: '#5fbf3f', hp: 100, speed: 240, mass: 1.0, price: 320, desc: '빠른 낫 베기',
       atk: { type: 'melee', name: '낫 베기', dmg: 6, range: 36, arc: 1.6, kb: 170, cd: 0.24 },
-      skill: { id: 'spin', name: '회전 낫 베기', icon: '🌪️', cd: 6 } },
+      skill: { id: 'spin', name: '회전 낫 베기', icon: '🌪️', cd: 6 }, skill2: { id: 'boomer', name: '부메랑 낫', icon: '🪃', cd: 6 } },
     dragonfly: { name: '잠자리', color: '#2f8fd8', hp: 85, speed: 285, mass: 0.75, price: 380, desc: '가장 빠르고 순간이동',
       atk: { type: 'shot', name: '바람 칼날', dmg: 6, spd: 760, life: 0.35, cd: 0.32, col: '#cdeeff' },
-      skill: { id: 'blink', name: '순간 이동', icon: '✨', cd: 5 } },
+      skill: { id: 'blink', name: '순간 이동', icon: '✨', cd: 5 }, skill2: { id: 'gust', name: '날개 돌풍', icon: '🌬️', cd: 6.5 } },
+    grasshopper: { name: '메뚜기', color: '#7cc63a', hp: 100, speed: 250, mass: 1.0, price: 280, desc: '튼튼한 뒷다리로 폴짝!',
+      atk: { type: 'melee', name: '뒷발 차기', dmg: 10, range: 30, arc: 1.4, kb: 520, cd: 0.5 },
+      skill: { id: 'superjump', name: '슈퍼 점프', icon: '🦘', cd: 6 }, skill2: { id: 'swarmhop', name: '메뚜기 떼', icon: '🦗', cd: 7.5 } },
   };
-  var INSECT_ORDER = ['stag', 'rhino', 'ant', 'ladybug', 'bee', 'firefly', 'mantis', 'dragonfly'];
+  var INSECT_ORDER = ['stag', 'rhino', 'ant', 'ladybug', 'bee', 'firefly', 'mantis', 'dragonfly', 'grasshopper'];
+  // 기술 설명 (레벨이 오르면 더 세지고 충전이 빨라져요)
+  var SKILL_DESC = {
+    grab: '집게로 꽉 집어서 멀리 던져요', charge: '뿔을 앞세우고 쌩 돌진해요', friends: '개미 로봇 친구들을 불러요 (레벨마다 +1마리)',
+    shell: '잠깐 무적! 때리면 튕겨 나가요 (레벨마다 더 오래)', swarm: '벌침을 부채꼴로 쏴요 (레벨마다 +2개)', flash: '번쩍! 주변 상대를 멈춰요 (레벨마다 더 넓게)',
+    spin: '빙글빙글 돌면서 베어요 (레벨마다 더 오래)', blink: '상대 뒤로 순간 이동해서 공격', superjump: '높이 뛰어올라 쿵! 내려찍어요 (레벨마다 더 넓게)',
+    combo: '집게로 다다닥 연속 공격 (레벨마다 +1번)', quake: '땅을 쿵! 흔들어 주변을 멈춰요', acid: '끈적한 개미산으로 상대를 느리게',
+    bombs: '점박이 폭탄을 던져서 펑! (레벨마다 +1개)', bigsting: '아주 센 독침 한 방, 맞으면 멈춰요', beam: '앞으로 쭉 뻗는 빛 레이저',
+    boomer: '낫을 던지면 부메랑처럼 돌아와요', gust: '날개 돌풍으로 멀리 날려 버려요', swarmhop: '꼬마 메뚜기 떼가 쫓아가서 콕콕 (레벨마다 +2마리)',
+  };
+  var UPGRADE_COST = [0, 0, 120, 260];
+  var ROBOT_TIME = 12;
 
   // 곤충에 붙이는 로봇 아이템 (부위마다 하나씩)
   var ITEMS = {
@@ -356,7 +375,7 @@
     { w: 0, name: '점박이 무당봇', insect: 'ladybug', items: { head: 'helmet' }, L: 0.22, reward: { insect: 'ladybug' } },
     { w: 0, name: '왕사슴봇', insect: 'stag', items: { head: 'helmet', arm: 'drill' }, L: 0.35, boss: { hp: 1.5, sc: 1.3 }, reward: { item: 'wheels' } },
     { w: 1, name: '윙윙 꿀벌봇', insect: 'bee', items: { back: 'rocket' }, L: 0.38, reward: { insect: 'bee' } },
-    { w: 1, name: '반짝 반딧불봇', insect: 'firefly', items: { back: 'battery' }, L: 0.44, reward: { insect: 'firefly' } },
+    { w: 1, name: '폴짝 메뚜기봇', insect: 'grasshopper', items: { legs: 'spring' }, L: 0.44, reward: { insect: 'grasshopper' } },
     { w: 1, name: '여왕벌봇', insect: 'bee', items: { arm: 'missile', back: 'battery', legs: 'wheels' }, L: 0.52, boss: { hp: 1.6, sc: 1.35 }, reward: { item: 'missile' } },
     { w: 2, name: '칼날 사마귀봇', insect: 'mantis', items: { legs: 'turbo', arm: 'drill' }, L: 0.55, reward: { insect: 'mantis' } },
     { w: 2, name: '번개 잠자리봇', insect: 'dragonfly', items: { back: 'rocket', head: 'lasereye' }, L: 0.6, reward: { insect: 'dragonfly' } },
@@ -369,7 +388,7 @@
   /* ================= 저장 ================= */
   var KEY = 'gamepark-bugbot-save-v1';
   var S = {
-    coins: 0, insects: { stag: 1, rhino: 1, ant: 1 }, items: { helmet: 1, rocket: 1, spring: 1 }, cleared: {}, muted: false,
+    coins: 0, insects: { stag: 1, rhino: 1, ant: 1 }, items: { helmet: 1, rocket: 1, spring: 1 }, cleared: {}, muted: false, skillLv: {},
     builds: {
       p1: { insect: 'stag', items: { head: 'helmet' }, color: null },
       p2: { insect: 'rhino', items: { back: 'rocket' }, color: '#2f8fd8' },
@@ -383,6 +402,7 @@
       if (s.insects) for (var k in s.insects) if (INSECTS[k]) S.insects[k] = 1;
       if (s.items) for (var j in s.items) if (ITEMS[j]) S.items[j] = 1;
       if (s.cleared) S.cleared = s.cleared;
+      if (s.skillLv) for (var q in s.skillLv) { var lvq = s.skillLv[q]; if ((lvq === 2 || lvq === 3) && INSECTS[q.slice(0, -1)]) S.skillLv[q] = lvq; }
       S.muted = !!s.muted;
       ['p1', 'p2'].forEach(function (p) {
         var b = s.builds && s.builds[p];
@@ -393,6 +413,7 @@
       });
     } catch (e) { /* 저장이 안 되는 기기에서도 그냥 플레이 */ }
   }
+  function skillLv(insect, slot) { return S.skillLv[insect + slot] || 1; }
   function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* 무시 */ } }
   load();
 
@@ -515,6 +536,7 @@
       halo: new T.MeshBasicMaterial({ color: 0xe6ff70, transparent: true, opacity: 0.25, depthWrite: false }),
       cyan: new T.MeshBasicMaterial({ color: 0x9ff0ff }),
       flame: new T.MeshBasicMaterial({ color: 0xffa028, transparent: true, opacity: 0.9 }), flameIn: new T.MeshBasicMaterial({ color: 0xfff6a0 }),
+      gold: std(0xffc83d, { metalness: 0.7, roughness: 0.25 }), glowB: new T.MeshBasicMaterial({ color: 0x7fe8ff }), jet: new T.MeshBasicMaterial({ color: 0x66ccff, transparent: true, opacity: 0.85 }),
       wing: new T.MeshStandardMaterial({ color: 0xd9f1ff, transparent: true, opacity: 0.45, side: T.DoubleSide, metalness: 0.1, roughness: 0.15, depthWrite: false }),
     };
   }
@@ -557,14 +579,14 @@
     }
   }
 
-  var BASEY = { stag: 14, rhino: 14, ant: 15, ladybug: 11, bee: 15, firefly: 14, mantis: 15, dragonfly: 18 };
+  var BASEY = { stag: 14, rhino: 14, ant: 15, ladybug: 11, bee: 15, firefly: 14, mantis: 15, dragonfly: 18, grasshopper: 15 };
   // 머리 [x, y, rx, ry, rz], 등(배) [x, y, rx, ry, rz]
-  var HEADC = { stag: [15, 15, 8, 7, 10], rhino: [17, 13, 6, 5, 8], ant: [13, 17, 8, 7, 8.5], ladybug: [19, 11, 7, 6, 10], bee: [13, 16, 7, 7, 8.5], firefly: [14, 14, 5, 5, 6], mantis: [21, 23, 6, 5, 8], dragonfly: [14, 23, 6, 6, 10] };
-  var BACKC = { stag: [-16, 14, 18, 10, 15], rhino: [-14, 14, 20, 12, 17], ant: [-21, 17, 14, 10, 11], ladybug: [-6, 8, 24, 16, 21], bee: [-18, 16, 17, 11, 13], firefly: [-13, 15, 17, 8, 12], mantis: [-20, 19, 20, 6, 8.5], dragonfly: [3, 22, 8, 7, 7] };
+  var HEADC = { stag: [15, 15, 8, 7, 10], rhino: [17, 13, 6, 5, 8], ant: [13, 17, 8, 7, 8.5], ladybug: [19, 11, 7, 6, 10], bee: [13, 16, 7, 7, 8.5], firefly: [14, 14, 5, 5, 6], mantis: [21, 23, 6, 5, 8], dragonfly: [14, 23, 6, 6, 10], grasshopper: [14, 19, 6, 7, 6.5] };
+  var BACKC = { stag: [-16, 14, 18, 10, 15], rhino: [-14, 14, 20, 12, 17], ant: [-21, 17, 14, 10, 11], ladybug: [-6, 8, 24, 16, 21], bee: [-18, 16, 17, 11, 13], firefly: [-13, 15, 17, 8, 12], mantis: [-20, 19, 20, 6, 8.5], dragonfly: [3, 22, 8, 7, 7], grasshopper: [-18, 16, 18, 7, 8] };
   var LEGS = {
     stag: { hips: [-4, 3, 10], len: 1 }, rhino: { hips: [-4, 3, 10], len: 1 }, ant: { hips: [-3, 1, 5], len: 1.05 },
     ladybug: { hips: [-6, 2, 10], len: 0.85 }, bee: { hips: [-2, 3, 8], len: 0.8 }, firefly: { hips: [-3, 3, 9], len: 0.85 },
-    mantis: { hips: [-6, 0], len: 1.05 }, dragonfly: { hips: [0, 3, 6], len: 0.6 },
+    mantis: { hips: [-6, 0], len: 1.05 }, dragonfly: { hips: [0, 3, 6], len: 0.6 }, grasshopper: { hips: [3, 9], len: 0.9, dirs: [0, 1] },
   };
 
   var BODY3 = {
@@ -670,6 +692,48 @@
     },
   };
 
+  BODY3.grasshopper = function (g, M, R) {
+    var ab = [-18, 16, 18, 7, 8];
+    ellip(g, M.paint, ab[0], ab[1], 0, ab[2], ab[3], ab[4]);
+    [-29, -22, -15].forEach(function (x) { band(g, M.paintDD, ab, x, 1); });
+    for (var w = -1; w <= 1; w += 2) { var wm = add(g, GEO.disc, M.wing, -14, 23.6, w * 2.6, 17, 1, 4.5); wm.castShadow = false; }
+    ellip(g, M.paintD, 3, 18, 0, 9, 7, 8); rivets(g, M, [3, 18, 9, 7, 8], [[0, -4], [0, 4]]);
+    ellip(g, M.paintD, 14, 19, 0, 6, 7, 6.5);
+    ellip(g, M.eye, 16, 22, -5, 2.8, 2.8, 2.8); ellip(g, M.eye, 16, 22, 5, 2.8, 2.8, 2.8);
+    var mo = add(g, GEO.cone, M.dark, 20.5, 15, 0, 2.4, 5, 2.4); mo.rotation.z = -Math.PI / 2;
+    if (R.items.head !== 'radar') for (var sd = -1; sd <= 1; sd += 2) tube(g, M.dark, [[17, 24, sd * 2], [26, 34, sd * 7], [42, 38, sd * 14]], 0.7);
+    R.hind = [];
+    for (var s2 = -1; s2 <= 1; s2 += 2) R.hind.push({ sd: s2, thigh: rod(g, M.paint, [0, 0, 0], [1, 1, 1], 3.4), shin: rod(g, M.paintDD, [0, 0, 0], [1, 1, 1], 1.8), knee: ellip(g, M.gray, 0, 0, 0, 3, 3, 3), foot: ellip(g, M.black, 0, 0, 0, 3, 2.4, 3) });
+  };
+
+  // 메가 로봇 갑옷 (변신하면 보여요)
+  function buildMega(g, M, R) {
+    var mg = new T.Group(); g.add(mg); R.mega = mg; mg.visible = false;
+    var h = HEADC[R.ins], b = BACKC[R.ins], B = BASEY[R.ins], top = b[1] + b[3];
+    var gold = M.gold, glow = M.glowB;
+    // 어깨 대포
+    for (var sd = -1; sd <= 1; sd += 2) {
+      ellip(mg, gold, 2, B + 9, sd * 13, 6, 5, 6);
+      var cn = add(mg, GEO.cyl, M.dark, 12, B + 13, sd * 13, 3.2, 20, 3.2); cn.rotation.z = Math.PI / 2;
+      var tip = add(mg, GEO.cyl, glow, 22.5, B + 13, sd * 13, 2.2, 1.2, 2.2); tip.rotation.z = Math.PI / 2;
+    }
+    // 등 제트팩
+    add(mg, GEO.box, M.steel, b[0] + 2, top + 5, 0, 16, 9, 18);
+    add(mg, GEO.box, gold, b[0] + 2, top + 9.8, 0, 12, 1.2, 14);
+    R.jets = [];
+    for (var s2 = -1; s2 <= 1; s2 += 2) {
+      var th = add(mg, GEO.cyl, M.dark, b[0] - 9, top + 5, s2 * 6, 3.4, 8, 3.4); th.rotation.z = Math.PI / 2;
+      var fj = new T.Group(); fj.position.set(b[0] - 13, top + 5, s2 * 6); mg.add(fj);
+      var fo = add(fj, GEO.cone, M.jet, -5, 0, 0, 2.8, 10, 2.8); fo.rotation.z = Math.PI / 2; fo.castShadow = false;
+      R.jets.push(fj);
+    }
+    // 머리 V자 뿔과 눈가리개
+    for (var s3 = -1; s3 <= 1; s3 += 2) { var v = add(mg, GEO.box, gold, h[0] + 1, h[1] + h[3] + 4, s3 * 4, 2, 9, 1.6); v.rotation.x = s3 * 0.55; }
+    add(mg, GEO.box, glow, h[0] + h[2] * 0.8, h[1] + 2, 0, 1.6, 2.2, h[4] * 1.6);
+    // 가슴 코어
+    R.core = ellip(mg, glow, 4, B + 10, 0, 3.6, 3.6, 3.6);
+  }
+
   function headItem(g, M, R, id) {
     var h = HEADC[R.ins], hx = h[0], hy = h[1], top = hy + h[3];
     if (id === 'radar') {
@@ -754,7 +818,7 @@
     var legMat = legItem === 'turbo' ? M.blue : M.dark;
     R.legs = [];
     for (var i = 0; i < n; i++) for (var sd = -1; sd <= 1; sd += 2) {
-      var leg = { i: i, sd: sd, dir: n === 3 ? [-1, 0, 1][i] : [-1, 0][i] };
+      var leg = { i: i, sd: sd, dir: L.dirs ? L.dirs[i] : n === 3 ? [-1, 0, 1][i] : [-1, 0][i] };
       leg.up = rod(g, legMat, [0, 0, 0], [1, 1, 1], 2.2);
       leg.low = rod(g, legItem === 'spring' ? M.steel : legMat, [0, 0, 0], [1, 1, 1], legItem === 'spring' ? 1.1 : 1.8);
       leg.knee = ellip(g, M.gray, 0, 0, 0, 2.5, 2.5, 2.5);
@@ -778,6 +842,7 @@
     headItem(body, M, R, items.head);
     backItem(body, M, R, items.back);
     armItem(body, M, R, items.arm);
+    buildMega(body, M, R);
     R.flashMats = [];
     for (var k in M) if (M[k].isMeshStandardMaterial && k !== 'eye' && k !== 'wing' && k !== 'bigEye') R.flashMats.push(M[k]);
     R.flashOn = false;
@@ -788,23 +853,37 @@
   var _a = [0, 0, 0], _b = [0, 0, 0], _c = [0, 0, 0];
   // s: { t, walk, moving, swing, charge, spin, grab, laserGlow, flash, misReady }
   function animBot(R, s) {
-    var t = s.t || 0, B = BASEY[R.ins], L = LEGS[R.ins];
+    var t = s.t || 0, B = BASEY[R.ins], L = LEGS[R.ins], mk = s.mega || 0, bl = mk * 10;
+    if (!s.dead) R.body.position.y = bl;
     R.legs.forEach(function (leg) {
       var grp = (leg.i + (leg.sd > 0 ? 1 : 0)) % 2, ph = s.walk + grp * Math.PI;
       var sw = Math.sin(ph) * (s.moving ? 6 : 0.6), lift = s.moving ? Math.max(0, Math.cos(ph)) * 5 : 0;
       var hx = L.hips[leg.i];
       _a[0] = hx; _a[1] = B - 1; _a[2] = leg.sd * 6;
       _b[0] = hx + leg.dir * 6 + sw * 0.5; _b[1] = B + 7 * L.len; _b[2] = leg.sd * 18 * L.len;
-      _c[0] = hx + leg.dir * 15 + sw; _c[1] = lift + leg.lift; _c[2] = leg.sd * 28 * L.len;
+      _c[0] = hx + leg.dir * 15 + sw; _c[1] = lift + leg.lift - bl; _c[2] = leg.sd * 28 * L.len * (1 + mk * 0.15);
       seg(leg.up, _a, _b, 2.2); seg(leg.low, _b, _c, leg.coils ? 1.1 : 1.8);
       leg.knee.position.set(_b[0], _b[1], _b[2]);
-      leg.foot.position.set(_c[0], lift, _c[2]);
+      leg.foot.position.set(_c[0], lift - bl, _c[2]);
       if (R.items.legs === 'wheels') leg.foot.children.forEach(function (m) { m.rotation.z = -s.walk * 2; });
       if (leg.coils) leg.coils.forEach(function (c, k) {
         var f = (k + 1) / 4; c.position.set(_b[0] + (_c[0] - _b[0]) * f, _b[1] + (_c[1] - _b[1]) * f, _b[2] + (_c[2] - _b[2]) * f);
         c.quaternion.copy(leg.low.quaternion);
       });
     });
+    var sw01h = s.swing > 0 ? Math.sin(Math.min(1, s.swing / 0.2) * Math.PI) : 0;
+    if (R.hind) R.hind.forEach(function (hl) {
+      var air = s.air || 0, sd = hl.sd, hip = [-2, 16, sd * 7];
+      var knee = [-15 + sw01h * 4, 31 - air * 8 + mk * 2, sd * 13];
+      var foot = [-31 - sw01h * 12 + air * 8, 2 - bl - air * 14, sd * 15];
+      seg(hl.thigh, hip, knee, 3.4); seg(hl.shin, knee, foot, 1.8);
+      hl.knee.position.set(knee[0], knee[1], knee[2]); hl.foot.position.set(foot[0], foot[1], foot[2]);
+    });
+    if (R.mega) {
+      R.mega.visible = mk > 0.05; R.mega.scale.setScalar(Math.max(0.01, mk));
+      if (R.jets) R.jets.forEach(function (j) { var k = 0.7 + Math.random() * 0.6; j.scale.set(k, 1, 1); });
+      if (R.core) R.core.scale.setScalar(3.6 * (0.85 + 0.25 * Math.sin(t * 10)));
+    }
     R.wings.forEach(function (w) { w.g.rotation.x = -w.sd * (0.12 + Math.sin(t * 38 * w.flap) * 0.38); });
     var sw01 = s.swing > 0 ? Math.sin(Math.min(1, s.swing / 0.2) * Math.PI) : 0;
     if (R.mand) { var close = s.grab > 0 ? 1 : sw01; R.mand.forEach(function (m) { m.g.rotation.y = -m.sd * (0.32 - close * 0.55); }); }
@@ -966,7 +1045,7 @@
     Array.prototype.forEach.call($('tabs').children, function (b) { b.classList.toggle('on', b.dataset.tab === gTab); });
     var b = S.builds[gWho], ins = INSECTS[b.insect];
     $('gName').textContent = (gWho === 'p1' ? '1P · ' : '2P · ') + ins.name + ' 로봇';
-    $('gAtk').textContent = '👊 ' + ins.atk.name + ' · ' + ins.skill.icon + ' ' + ins.skill.name;
+    $('gAtk').textContent = '👊 ' + ins.atk.name + ' · ' + ins.skill.icon + ' ' + ins.skill.name + ' Lv' + skillLv(b.insect, 1) + ' · ' + ins.skill2.icon + ' ' + ins.skill2.name + ' Lv' + skillLv(b.insect, 2);
     $('gStats').innerHTML = statRows(b);
     $('gSlots').innerHTML = SLOTS.map(function (sl) {
       var id = b.items[sl[0]];
@@ -977,7 +1056,7 @@
       INSECT_ORDER.forEach(function (id) {
         var I = INSECTS[id], own = !!S.insects[id], on = b.insect === id;
         var d = document.createElement('button'); d.className = 'it' + (on ? ' on' : '') + (own ? '' : ' lock');
-        d.innerHTML = '<canvas></canvas><div>' + I.name + '</div><small>' + I.desc + '<br>' + I.skill.icon + ' ' + I.skill.name + '</small>' +
+        d.innerHTML = '<canvas></canvas><div>' + I.name + '</div><small>' + I.desc + '<br>' + I.skill.icon + ' ' + I.skill.name + ' · ' + I.skill2.icon + ' ' + I.skill2.name + '</small>' +
           (own ? (on ? '<span class="tag">✔ 고름</span>' : '') : '<span class="price">🪙 ' + I.price + '</span>');
         d.onclick = function () {
           if (!own) { if (!buy(I.price)) return; S.insects[id] = 1; }
@@ -986,6 +1065,24 @@
         g.appendChild(d);
         thumb(d.querySelector('canvas'), { insect: id, items: {}, color: null });
       });
+    } else if (gTab === 'skill') {
+      [1, 2].forEach(function (slot) {
+        var sk = slot === 1 ? ins.skill : ins.skill2, lv = skillLv(b.insect, slot), cost = UPGRADE_COST[lv + 1];
+        var d = document.createElement('button'); d.className = 'it skc';
+        d.innerHTML = '<div class="em">' + sk.icon + '</div><div>기술 ' + slot + ' · ' + sk.name + '</div>' +
+          '<div class="stars">' + '★★★'.slice(0, lv) + '<i>' + '★★★'.slice(lv) + '</i> Lv' + lv + '</div>' +
+          '<small>' + SKILL_DESC[sk.id] + '<br>업그레이드하면 더 세지고 빨리 충전돼요</small>' +
+          (cost ? '<span class="price">⬆️ 업그레이드 🪙 ' + cost + '</span>' : '<span class="tag">최고 레벨!</span>');
+        d.onclick = function () {
+          if (!cost) return;
+          if (!buy(cost)) return;
+          S.skillLv[b.insect + slot] = lv + 1; save(); gAttachFx = 0.5; toast(sk.icon + ' ' + sk.name + ' Lv' + (lv + 1) + '!'); renderGarage();
+        };
+        g.appendChild(d);
+      });
+      var tip = document.createElement('div'); tip.className = 'card'; tip.style.gridColumn = '1/-1'; tip.style.fontSize = '15px';
+      tip.innerHTML = '🤖 <b>메가 로봇 변신</b>: 싸울 때 상대를 많이 때리면 로봇 게이지가 차요. 꽉 차면 12초 동안 크고 센 메가 로봇으로 변신! 기술도 한 단계 더 세져요.<br>⌨️ 기술1: G/K · 기술2: H/L (둘이서: 1P G·H, 2P L·;)';
+      g.appendChild(tip);
     } else if (gTab === 'paint') {
       var p = document.createElement('div'); p.className = 'card pal'; p.style.gridColumn = '1/-1';
       PAINTS.forEach(function (col) {
@@ -1075,10 +1172,11 @@
       build: build, insect: build.insect, items: build.items || {}, color: build.color, ins: ins, st: st, side: side, team: side,
       name: opt.name, x: side === 0 ? 230 : W - 230, y: H / 2, vx: 0, vy: 0, kx: 0, ky: 0, ang: side === 0 ? 0 : Math.PI,
       r: 22 * sc, sc: sc, mass: st.mass * (opt.boss ? 1.5 : 1), hp: st.hp * (opt.hpMul || 1),
-      atkT: 0, skMax: ins.skill.cd * st.cd, skT: ins.skill.cd * st.cd * 0.4, stun: 0, slow: 0, inv: 0, flash: 0, swing: 0,
+      atkT: 0, skMax: ins.skill.cd * st.cd, skT: ins.skill.cd * st.cd * 0.4, sk2Max: ins.skill2.cd * st.cd, sk2T: ins.skill2.cd * st.cd * 0.6, stun: 0, slow: 0, inv: 0, flash: 0, swing: 0,
+      lv1: opt.lv || skillLv(build.insect, 1), lv2: opt.lv || skillLv(build.insect, 2), power: 0, robotT: 0, megaK: 0, baseSc: sc, z: 0, jumpT: 0, combo: 0, comboT: 0,
       walk: 0, moving: false, charge: 0, chargeHit: false, spin: 0, spinTick: 0, grab: 0, shellT: 0,
       laserT: 2.5, laserGlow: 0, misT: 4, attach: {}, shieldHp: 0,
-      in: { mx: 0, my: 0, atk: false, sk: false }, ai: opt.ai ? { L: opt.ai, t: 0, strafe: 1, mode: 'fight', atk: false } : null,
+      in: { mx: 0, my: 0, atk: false, sk: false, sk2: false }, ai: opt.ai ? { L: opt.ai, t: 0, strafe: 1, mode: 'fight', atk: false } : null,
       dead: false,
     };
     f.maxHp = f.hp;
@@ -1091,7 +1189,7 @@
     if (mode === 'league') {
       var st = STAGES[stageIdx]; world = WORLDS[st.w];
       enemyBuild = { insect: st.insect, items: st.items, color: null };
-      opp = makeFighter(enemyBuild, 1, { name: st.name, ai: st.L, hpMul: st.boss ? st.boss.hp : 1, sc: st.boss ? st.boss.sc : 1, boss: !!st.boss });
+      opp = makeFighter(enemyBuild, 1, { name: st.name, ai: st.L, hpMul: st.boss ? st.boss.hp : 1, sc: st.boss ? st.boss.sc : 1, boss: !!st.boss, lv: stageIdx >= 8 ? 3 : stageIdx >= 4 ? 2 : 1 });
     } else {
       world = WORLDS[(Math.random() * WORLDS.length) | 0];
       opp = makeFighter(S.builds.p2, 1, { name: '2P' });
@@ -1109,7 +1207,7 @@
     setupTouch(mode === 'pvp');
     $('pauseBtn').hidden = false; paused = false;
     var k = $('keys'); k.hidden = isTouch;
-    k.textContent = mode === 'pvp' ? '1P: W A S D 이동 · F 공격 · G 기술   |   2P: 방향키 이동 · K 공격 · L 기술   |   Esc 멈춤' : '이동: W A S D / 방향키 · 공격: F, J, 스페이스 · 기술: G, K · 멈춤: Esc';
+    k.textContent = mode === 'pvp' ? '1P: W A S D 이동 · F 공격 · G 기술1 · H 기술2   |   2P: 방향키 · K 공격 · L 기술1 · ; 기술2   |   Esc 멈춤' : '이동: W A S D / 방향키 · 공격: F, J, 스페이스 · 기술1: G, K · 기술2: H, L · 멈춤: Esc  ·  많이 때리면 🤖 메가 로봇 변신!';
     lastBeep = 4;
   }
 
@@ -1169,12 +1267,12 @@
     }
     var crit = false;
     if (src && src.st) {
-      dmg *= src.st.dmg; kb *= src.st.kbOut;
+      dmg *= src.st.dmg * (src.robotT > 0 ? 1.35 : 1); kb *= src.st.kbOut;
       if (src.st.crit && Math.random() < src.st.crit) { dmg *= 2; crit = true; }
       var stunCh = src.st.stun + (src.attach && src.attach.coil > 0 ? 0.4 : 0);
       if (stunCh && Math.random() < stunCh && !t.minion) { t.stun = Math.max(t.stun, 0.6); addText(t.x, t.y - 40, '찌릿!', '#9ff0ff', 18); burst(t.x, t.y, '#bff4ff', 8, 200, 3); }
     }
-    if (t.st) dmg *= t.st.def;
+    if (t.st) dmg *= t.st.def * (t.robotT > 0 ? 0.7 : 1);
     if (t.attach && t.attach.shield > 0 && t.shieldHp > 0) {
       var ab = Math.min(t.shieldHp, dmg); t.shieldHp -= ab; dmg -= ab;
       if (t.shieldHp <= 0) { t.attach.shield = 0; addText(t.x, t.y - 34, '방패 펑!', '#cfe6ff', 18); }
@@ -1182,6 +1280,8 @@
     }
     dmg = Math.round(dmg * 10) / 10;
     t.hp -= dmg; t.flash = 0.12;
+    if (src && src.power !== undefined && src !== t && src.robotT <= 0) src.power = Math.min(100, src.power + clamp(dmg * 1.1, 2, 12));
+    if (t.power !== undefined && t.robotT <= 0) t.power = Math.min(100, t.power + dmg * 0.45);
     var kin = t.st ? t.st.kbIn : 1;
     t.kx += Math.cos(ang) * kb * kin / t.mass; t.ky += Math.sin(ang) * kb * kin / t.mass;
     if (dmg > 0) addText(t.x + rnd(-8, 8), t.y - t.r - 6, (crit ? '💥' : '') + Math.max(1, Math.round(dmg)), crit ? '#ffd23a' : '#ffffff', crit ? 28 : 20);
@@ -1219,7 +1319,7 @@
     var sp = spec.spd || 600;
     G.projs.push({
       x: f.x + Math.cos(ang) * (f.r + 4), y: f.y + Math.sin(ang) * (f.r + 4), vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp,
-      owner: f, team: f.team, dmg: spec.dmg, r: spec.r || 6, life: spec.life || 1, col: spec.col || '#fff', kind: spec.kind || 'ball', homing: spec.homing || 0, kb: spec.kb || 140, slow: spec.slow || 0,
+      owner: f, team: f.team, dmg: spec.dmg, r: spec.r || 6, life: spec.life || 1, col: spec.col || '#fff', kind: spec.kind || 'ball', homing: spec.homing || 0, kb: spec.kb || 140, slow: spec.slow || 0, stun: spec.stun || 0, pierce: !!spec.pierce, explode: spec.explode || null, age: 0, hits: [],
     });
   }
 
@@ -1238,35 +1338,40 @@
     }
   }
 
-  function doSkill(f) {
-    var id = f.ins.skill.id, e = f.foe;
-    f.skT = f.skMax; SFX.skill();
-    addText(f.x, f.y - f.r - 26, f.ins.skill.icon + ' ' + f.ins.skill.name, '#ffe680', 18);
+  function doSkill(f, slot) {
+    var sk = slot === 2 ? f.ins.skill2 : f.ins.skill, id = sk.id, e = f.foe;
+    var lv = Math.min(4, (slot === 2 ? f.lv2 : f.lv1) + (f.robotT > 0 ? 1 : 0)), m = 1 + 0.35 * (lv - 1), L1 = lv - 1;
+    if (slot === 2) f.sk2T = f.sk2Max * (1 - 0.12 * Math.min(2, f.lv2 - 1)); else f.skT = f.skMax * (1 - 0.12 * Math.min(2, f.lv1 - 1));
+    SFX.skill();
+    addText(f.x, f.y - f.r - 26, sk.icon + ' ' + sk.name + (lv > 1 ? ' Lv' + lv : ''), '#ffe680', 18);
+    var i, k, n;
     if (id === 'grab') {
       aimAt(f, 1.6, 200); f.grab = 0.3; f.swing = 0.2;
-      meleeHit(f, 40, 2.2, 15, 950, {});
+      meleeHit(f, 40, 2.2, 15 * m, 950, {});
       var hitE = e && !e.dead && Math.hypot(e.x - f.x, e.y - f.y) < f.r + e.r + 44 * f.sc;
-      if (hitE) e.stun = Math.max(e.stun, 0.5);
+      if (hitE) e.stun = Math.max(e.stun, 0.5 + 0.15 * L1);
     } else if (id === 'charge') {
-      aimAt(f, 1.6, 600); f.charge = 0.38; f.chargeHit = false;
+      aimAt(f, 1.6, 600); f.charge = 0.38 + 0.06 * L1; f.chargeHit = false; f.chargeDmg = 15 * m;
     } else if (id === 'friends') {
-      for (var i = -1; i <= 1; i += 2) {
-        G.minions.push({ minion: true, owner: f, team: f.team, x: f.x + Math.cos(f.ang + i * 1.4) * 30, y: f.y + Math.sin(f.ang + i * 1.4) * 30, vx: 0, vy: 0, kx: 0, ky: 0, ang: f.ang, r: 10, hp: 18, maxHp: 18, mass: 0.4, life: 8, atkT: 0.5, inv: 0, flash: 0, walk: 0, dead: false, color: f.color });
+      n = 2 + L1;
+      for (i = 0; i < n; i++) {
+        var fa = f.ang + (i - (n - 1) / 2) * 1.1 + Math.PI / 2 * (i % 2 ? 1 : -1) * 0.3;
+        G.minions.push({ minion: true, owner: f, team: f.team, x: f.x + Math.cos(fa) * 30, y: f.y + Math.sin(fa) * 30, vx: 0, vy: 0, kx: 0, ky: 0, ang: f.ang, r: 10, hp: 18 * m, maxHp: 18 * m, mass: 0.4, life: 8, atkT: 0.5, inv: 0, flash: 0, walk: 0, dead: false, color: f.color, dmg: 3 * m });
       }
       burst(f.x, f.y, '#ffffff', 10, 150);
     } else if (id === 'shell') {
-      f.inv = 2.5; f.shellT = 2.5;
+      f.inv = 2.5 + 0.6 * L1; f.shellT = f.inv;
     } else if (id === 'swarm') {
-      aimAt(f, 1.2, 700);
-      for (var k = -2; k <= 2; k++) shoot(f, f.ang + k * 0.16, { dmg: 5, spd: 600, life: 0.9, col: '#ffd23a' });
+      aimAt(f, 1.2, 700); n = 5 + 2 * L1;
+      for (k = 0; k < n; k++) shoot(f, f.ang + (k - (n - 1) / 2) * 0.13, { dmg: 5 * m, spd: 600, life: 0.9, col: '#ffd23a' });
     } else if (id === 'flash') {
       G.beams.push({ kind: 'flash', x: f.x, y: f.y, t: 0.4 });
       enemiesOf(f).forEach(function (t) {
         var d = Math.hypot(t.x - f.x, t.y - f.y);
-        if (d < 170 + t.r) { t.stun = Math.max(t.stun || 0, 1.3); hurt(f, t, 4, Math.atan2(t.y - f.y, t.x - f.x), 200, { ranged: true }); if (!t.minion) addText(t.x, t.y - 44, '눈부셔!', '#ffffa0', 18); }
+        if (d < 170 + 30 * L1 + t.r) { t.stun = Math.max(t.stun || 0, 1.3 + 0.3 * L1); hurt(f, t, 4 * m, Math.atan2(t.y - f.y, t.x - f.x), 200, { ranged: true }); if (!t.minion) addText(t.x, t.y - 44, '눈부셔!', '#ffffa0', 18); }
       });
     } else if (id === 'spin') {
-      f.spin = 0.7; f.spinTick = 0;
+      f.spin = 0.7 + 0.25 * L1; f.spinTick = 0; f.spinDmg = 6 * m;
     } else if (id === 'blink') {
       if (e && !e.dead) {
         burst(f.x, f.y, '#cdeeff', 14, 200);
@@ -1274,16 +1379,84 @@
         f.x = clamp(bx, WALL + f.r, W - WALL - f.r); f.y = clamp(by, WALL + f.r, H - WALL - f.r);
         f.ang = Math.atan2(e.y - f.y, e.x - f.x);
         burst(f.x, f.y, '#cdeeff', 14, 200);
-        hurt(f, e, 9, f.ang, 380, {});
+        hurt(f, e, 9 * m, f.ang, 380, {});
       }
+    } else if (id === 'superjump') {
+      aimAt(f, 3.2, 900);
+      var tx = f.x + Math.cos(f.ang) * 220, ty = f.y + Math.sin(f.ang) * 220;
+      if (e && !e.dead && Math.hypot(e.x - f.x, e.y - f.y) < 520) { tx = e.x; ty = e.y; }
+      f.jumpFrom = [f.x, f.y]; f.jumpTo = [clamp(tx, WALL + f.r, W - WALL - f.r), clamp(ty, WALL + f.r, H - WALL - f.r)];
+      f.jumpMax = f.jumpT = 0.7; f.jumpDmg = 14 * m; f.jumpR = 90 + 18 * L1; f.inv = Math.max(f.inv, 0.7);
+      burst(f.x, f.y, '#d8c8a0', 12, 180);
+    } else if (id === 'combo') {
+      f.combo = 4 + L1; f.comboT = 0; f.comboDmg = 5 * m;
+    } else if (id === 'quake') {
+      var qr = 140 + 22 * L1;
+      G.beams.push({ kind: 'ring', x: f.x, y: f.y, r: qr, t: 0.45, max: 0.45, col: 0xffb050 });
+      enemiesOf(f).forEach(function (t) {
+        var d = Math.hypot(t.x - f.x, t.y - f.y);
+        if (d < qr + t.r) { hurt(f, t, 10 * m, Math.atan2(t.y - f.y, t.x - f.x), 520, {}); t.stun = Math.max(t.stun || 0, 0.6 + 0.15 * L1); }
+      });
+      burst(f.x, f.y, '#c9a073', 24, 320, 5); G.shake = Math.max(G.shake, 14);
+    } else if (id === 'acid') {
+      aimAt(f, 1.2, 700);
+      shoot(f, f.ang, { dmg: 7 * m, spd: 520, life: 1.1, col: '#9dff3a', r: 8, slow: 2.5 + 0.5 * L1, kind: 'acid' });
+    } else if (id === 'bombs') {
+      aimAt(f, 1.2, 600); n = 3 + L1;
+      for (k = 0; k < n; k++) shoot(f, f.ang + (k - (n - 1) / 2) * 0.32, { dmg: 0, spd: 300, life: 0.75, col: '#ff7a3d', r: 8, kind: 'bomb', explode: { r: 70, dmg: 9 * m, kb: 420 } });
+    } else if (id === 'bigsting') {
+      aimAt(f, 1.0, 800);
+      shoot(f, f.ang, { dmg: 16 * m, spd: 900, life: 0.8, col: '#ff9a3d', r: 7, stun: 0.5 + 0.2 * L1, kb: 420 });
+    } else if (id === 'beam') {
+      aimAt(f, 1.2, 600);
+      var len = 460, ca = Math.cos(f.ang), sa = Math.sin(f.ang);
+      G.beams.push({ kind: 'laser', col: 0xe6ff70, w: 3, x1: f.x + ca * f.r, y1: f.y + sa * f.r, x2: f.x + ca * len, y2: f.y + sa * len, t: 0.3 });
+      enemiesOf(f).forEach(function (t) {
+        var dx = t.x - f.x, dy = t.y - f.y, along = dx * ca + dy * sa, perp = Math.abs(-dx * sa + dy * ca);
+        if (along > 0 && along < len && perp < t.r + 12) hurt(f, t, 14 * m, f.ang, 350, { ranged: true });
+      });
+      tone(900, 0.25, 'sawtooth', 0.12, 1500);
+    } else if (id === 'boomer') {
+      aimAt(f, 1.2, 700);
+      shoot(f, f.ang, { dmg: 8 * m, spd: 560, life: 1.6, col: '#e6ecf3', r: 11, kind: 'boomer', pierce: true, kb: 260 });
+    } else if (id === 'gust') {
+      aimAt(f, 1.2, 400);
+      G.beams.push({ kind: 'gust', x: f.x, y: f.y, ang: f.ang, t: 0.35 });
+      meleeHit(f, 170, 1.5, 6 * m, 1000 + 150 * L1, {});
+      for (k = 0; k < 14; k++) { var ga = f.ang + rnd(-0.7, 0.7), gv = rnd(300, 600); G.parts.push({ x: f.x, y: f.y, h: 14, vh: 0, vx: Math.cos(ga) * gv, vy: Math.sin(ga) * gv, t: 0.4, max: 0.4, col: 'rgba(230,248,255,0.9)', r: 3 }); }
+    } else if (id === 'swarmhop') {
+      aimAt(f, 1.2, 700); n = 4 + 2 * L1;
+      for (k = 0; k < n; k++) shoot(f, f.ang + (k - (n - 1) / 2) * 0.35, { dmg: 4 * m, spd: 330, life: 2, col: '#7ed957', r: 6, kind: 'hopper', homing: 3.5, kb: 90 });
     }
+  }
+
+  // 로봇 게이지가 꽉 차면 메가 로봇으로 변신
+  function transform(f) {
+    f.robotT = ROBOT_TIME; f.power = 100;
+    f.hp = Math.min(f.maxHp, f.hp + 15);
+    addText(f.x, f.y - f.r - 30, '🤖 변신! 메가 로봇!', '#ffd23a', 26);
+    G.beams.push({ kind: 'pillar', x: f.x, y: f.y, t: 0.9, max: 0.9 });
+    burst(f.x, f.y, '#ffd23a', 30, 360, 6); burst(f.x, f.y, '#6fd8ff', 20, 300, 5);
+    G.shake = Math.max(G.shake, 12);
+    [392, 523, 659, 784, 1046].forEach(function (fq, i) { tone(fq, 0.14, 'square', 0.16, 0, i * 0.07); });
+    tone(120, 0.5, 'sawtooth', 0.2, 400, 0.1);
+  }
+
+  // 폭탄이 터질 때
+  function boom(p) {
+    var ex = p.explode;
+    G.beams.push({ kind: 'boom', x: p.x, y: p.y, r: ex.r, t: 0.35, max: 0.35 });
+    burst(p.x, p.y, '#ff9a3d', 18, 300, 5); burst(p.x, p.y, '#ffe680', 10, 200, 4);
+    tone(90, 0.3, 'sawtooth', 0.22, 40);
+    G.shake = Math.max(G.shake, 8);
+    enemiesOf(p.owner).forEach(function (t) { var d = Math.hypot(t.x - p.x, t.y - p.y); if (d < ex.r + t.r) hurt(p.owner, t, ex.dmg, Math.atan2(t.y - p.y, t.x - p.x), ex.kb, { ranged: true }); });
   }
 
   function grabPick(f, p) {
     var P = PICKS[p.type];
     SFX.pick(); burst(p.x, p.y, '#ffe680', 12, 200);
     if (p.type === 'battery') { f.hp = Math.min(f.maxHp, f.hp + 25); addText(f.x, f.y - 40, '🔋 +25', '#7dff8a', 22); return; }
-    if (p.type === 'gear') { f.skT = 0; addText(f.x, f.y - 40, '⚙️ 기술 충전!', '#ffe680', 20); return; }
+    if (p.type === 'gear') { f.skT = 0; f.sk2T = 0; addText(f.x, f.y - 40, '⚙️ 기술 충전!', '#ffe680', 20); return; }
     f.attach[p.type] = P.time;
     if (p.type === 'shield') f.shieldHp = 30;
     setTimeout(SFX.clank, 120);
@@ -1317,10 +1490,19 @@
 
   function updFighter(f, dt) {
     if (f.dead) return;
-    f.atkT -= dt; f.skT -= dt; f.stun -= dt; f.inv -= dt; f.flash -= dt; f.swing -= dt; f.slow -= dt; f.grab -= dt; f.shellT -= dt; f.laserGlow -= dt;
+    var cdRate = f.robotT > 0 ? 1.6 : 1;
+    f.atkT -= dt; f.skT -= dt * cdRate; f.sk2T -= dt * cdRate; f.stun -= dt; f.inv -= dt; f.flash -= dt; f.swing -= dt; f.slow -= dt; f.grab -= dt; f.shellT -= dt; f.laserGlow -= dt;
     for (var k in f.attach) if (f.attach[k] > 0) { f.attach[k] -= dt; if (f.attach[k] <= 0) { f.attach[k] = 0; if (k === 'shield') f.shieldHp = 0; } }
     if (G.phase !== 'fight') { f.in.mx = f.in.my = 0; }
     var fighting = G.phase === 'fight';
+    // 메가 로봇 변신
+    if (f.robotT > 0) {
+      f.robotT -= dt; f.power = Math.max(0, 100 * f.robotT / ROBOT_TIME);
+      if (Math.random() < 0.3) G.parts.push({ x: f.x + rnd(-f.r, f.r), y: f.y + rnd(-f.r, f.r), h: rnd(10, 40), vh: 60, vx: 0, vy: 0, t: 0.4, max: 0.4, col: 'rgba(255,210,60,0.8)', r: 2.5 });
+      if (f.robotT <= 0) { f.robotT = 0; f.power = 0; addText(f.x, f.y - f.r - 26, '변신 풀림', '#cfe6ff', 18); burst(f.x, f.y, '#cfe6ff', 12, 200); }
+    } else if (fighting && f.power >= 100) transform(f);
+    f.megaK += ((f.robotT > 0 ? 1 : 0) - f.megaK) * Math.min(1, dt * 5);
+    f.sc = f.baseSc * (1 + 0.22 * f.megaK); f.r = 22 * f.sc;
     if (fighting && f.st.regen) f.hp = Math.min(f.maxHp, f.hp + f.st.regen * dt);
 
     var e = f.foe;
@@ -1341,13 +1523,25 @@
 
     var stunned = f.stun > 0;
     var mx = stunned ? 0 : f.in.mx, my = stunned ? 0 : f.in.my;
-    var spd = f.st.speed * (f.attach.rocket > 0 ? 1.35 : 1) * (f.slow > 0 ? 0.55 : 1) * (f.spin > 0 ? 0.6 : 1);
-    if (f.charge > 0) {
+    var spd = f.st.speed * (f.attach.rocket > 0 ? 1.35 : 1) * (f.slow > 0 ? 0.55 : 1) * (f.spin > 0 ? 0.6 : 1) * (f.robotT > 0 ? 1.12 : 1);
+    if (f.jumpT > 0) {
+      f.jumpT -= dt;
+      var jk = clamp(1 - f.jumpT / f.jumpMax, 0, 1);
+      f.x = f.jumpFrom[0] + (f.jumpTo[0] - f.jumpFrom[0]) * jk; f.y = f.jumpFrom[1] + (f.jumpTo[1] - f.jumpFrom[1]) * jk;
+      f.z = Math.sin(jk * Math.PI) * 120; f.vx = f.vy = 0;
+      if (f.jumpTo[0] !== f.jumpFrom[0] || f.jumpTo[1] !== f.jumpFrom[1]) f.ang = Math.atan2(f.jumpTo[1] - f.jumpFrom[1], f.jumpTo[0] - f.jumpFrom[0]);
+      if (f.jumpT <= 0) {
+        f.z = 0; f.jumpT = 0;
+        G.beams.push({ kind: 'ring', x: f.x, y: f.y, r: f.jumpR, t: 0.4, max: 0.4, col: 0x9dff6a });
+        burst(f.x, f.y, '#d8c8a0', 22, 320, 5); G.shake = Math.max(G.shake, 13); tone(80, 0.35, 'square', 0.25, 40);
+        enemiesOf(f).forEach(function (t) { var dd = Math.hypot(t.x - f.x, t.y - f.y); if (dd < f.jumpR + t.r) hurt(f, t, f.jumpDmg, Math.atan2(t.y - f.y, t.x - f.x), 650, {}); });
+      }
+    } else if (f.charge > 0) {
       f.charge -= dt;
       f.vx = Math.cos(f.ang) * 780; f.vy = Math.sin(f.ang) * 780;
       if (Math.random() < 0.7) G.parts.push({ x: f.x - Math.cos(f.ang) * f.r, y: f.y - Math.sin(f.ang) * f.r, vx: rnd(-40, 40), vy: rnd(-40, 40), t: 0.3, max: 0.3, col: 'rgba(255,255,255,0.8)', r: 5 });
       if (!f.chargeHit) enemiesOf(f).forEach(function (t) {
-        if (Math.hypot(t.x - f.x, t.y - f.y) < f.r + t.r + 14) { if (!t.minion) { f.chargeHit = true; f.charge = Math.min(f.charge, 0.05); } hurt(f, t, 15, f.ang, 750, {}); }
+        if (Math.hypot(t.x - f.x, t.y - f.y) < f.r + t.r + 14) { if (!t.minion) { f.chargeHit = true; f.charge = Math.min(f.charge, 0.05); } hurt(f, t, f.chargeDmg || 15, f.ang, 750, {}); }
       });
       if (f.charge <= 0) { f.vx *= 0.3; f.vy *= 0.3; }
     } else {
@@ -1361,19 +1555,24 @@
     }
     if (f.spin > 0) {
       f.spin -= dt; f.spinTick -= dt; f.ang += 18 * dt;
-      if (f.spinTick <= 0) { f.spinTick = 0.18; enemiesOf(f).forEach(function (t) { var dd = Math.hypot(t.x - f.x, t.y - f.y); if (dd < f.r + t.r + 40 * f.sc) hurt(f, t, 6, Math.atan2(t.y - f.y, t.x - f.x), 260, {}); }); tone(500, 0.05, 'triangle', 0.1, 800); }
+      if (f.spinTick <= 0) { f.spinTick = 0.18; enemiesOf(f).forEach(function (t) { var dd = Math.hypot(t.x - f.x, t.y - f.y); if (dd < f.r + t.r + 40 * f.sc) hurt(f, t, f.spinDmg || 6, Math.atan2(t.y - f.y, t.x - f.x), 260, {}); }); tone(500, 0.05, 'triangle', 0.1, 800); }
     }
-    f.x += (f.vx + f.kx) * dt; f.y += (f.vy + f.ky) * dt;
+    if (f.combo > 0 && fighting) {
+      f.comboT -= dt;
+      if (f.comboT <= 0) { f.comboT = 0.11; f.combo--; f.swing = 0.2; aimAt(f, 1.4, 220); meleeHit(f, 34, 1.9, f.comboDmg, f.combo === 0 ? 650 : 120); SFX.swing(); }
+    }
+    if (f.jumpT <= 0) { f.x += (f.vx + f.kx) * dt; f.y += (f.vy + f.ky) * dt; }
     var dec = Math.exp(-5 * dt); f.kx *= dec; f.ky *= dec;
     var sp = Math.hypot(f.vx, f.vy);
     f.moving = sp > 30; f.walk += sp * dt * 0.09;
     collideWorld(f);
 
-    if (fighting && !stunned && f.charge <= 0 && f.spin <= 0) {
+    if (fighting && !stunned && f.charge <= 0 && f.spin <= 0 && f.jumpT <= 0 && f.combo <= 0) {
       if (f.in.atk && f.atkT <= 0) doAttack(f);
-      if (f.in.sk && f.skT <= 0) doSkill(f);
+      if (f.in.sk && f.skT <= 0) doSkill(f, 1);
+      else if (f.in.sk2 && f.sk2T <= 0) doSkill(f, 2);
     }
-    f.in.sk = false;
+    f.in.sk = false; f.in.sk2 = false;
 
     G.picks.forEach(function (p) { if (!p.done && Math.hypot(p.x - f.x, p.y - f.y) < f.r + 16) { p.done = true; grabPick(f, p); } });
   }
@@ -1387,7 +1586,7 @@
       var dx = e.x - m.x, dy = e.y - m.y, d = Math.hypot(dx, dy) || 1;
       m.ang = Math.atan2(dy, dx);
       if (d > m.r + e.r + 2) { m.vx += (dx / d * 230 - m.vx) * Math.min(1, 8 * dt); m.vy += (dy / d * 230 - m.vy) * Math.min(1, 8 * dt); }
-      else { m.vx *= 0.8; m.vy *= 0.8; if (m.atkT <= 0) { m.atkT = 0.6; m.swing = 0.2; hurt(m.owner, e, 3, m.ang, 60, {}); } }
+      else { m.vx *= 0.8; m.vy *= 0.8; if (m.atkT <= 0) { m.atkT = 0.6; m.swing = 0.2; hurt(m.owner, e, m.dmg || 3, m.ang, 60, {}); } }
     } else { m.vx *= 0.9; m.vy *= 0.9; }
     m.swing = (m.swing || 0) - dt;
     m.x += (m.vx + m.kx) * dt; m.y += (m.vy + m.ky) * dt;
@@ -1397,6 +1596,7 @@
   }
 
   function separate(a, b) {
+    if (a.z > 10 || b.z > 10) return;
     var dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy) || 0.01, m = a.r + b.r;
     if (d >= m) return;
     var nx = dx / d, ny = dy / d, over = m - d, tot = a.mass + b.mass;
@@ -1422,17 +1622,9 @@
         if (best && bd < 320) a.pick = best;
       }
       // 기술 쓸지
-      var id = f.ins.skill.id, use = false;
-      if (f.skT <= 0 && Math.random() < 0.35 + 0.6 * a.L) {
-        if (id === 'grab' || id === 'spin') use = d < f.r + e.r + 40 * f.sc;
-        else if (id === 'charge') use = d > 110 && d < 420;
-        else if (id === 'flash') use = d < 160;
-        else if (id === 'swarm') use = d < 450;
-        else if (id === 'blink') use = d > 160;
-        else if (id === 'shell') use = d < 120 && f.hp / f.maxHp < 0.75;
-        else use = true;
-      }
-      a.sk = use;
+      var pUse = 0.35 + 0.6 * a.L;
+      a.sk = f.skT <= 0 && Math.random() < pUse && wantSkill(f, f.ins.skill.id, d, e);
+      a.sk2 = !a.sk && f.sk2T <= 0 && Math.random() < pUse && wantSkill(f, f.ins.skill2.id, d, e);
     }
     var mx = 0, my = 0;
     if (a.pick && !a.pick.done) {
@@ -1464,6 +1656,22 @@
     var inRange = ranged ? d < 520 : d < f.r + e.r + f.ins.atk.range * f.sc + 6;
     inp.atk = a.atk && inRange;
     if (a.sk) { inp.sk = true; a.sk = false; }
+    if (a.sk2) { inp.sk2 = true; a.sk2 = false; }
+  }
+  function wantSkill(f, id, d, e) {
+    var near = f.r + e.r + 40 * f.sc;
+    switch (id) {
+      case 'grab': case 'spin': case 'combo': return d < near;
+      case 'charge': return d > 110 && d < 420;
+      case 'flash': return d < 160;
+      case 'quake': return d < 150;
+      case 'gust': return d < 210;
+      case 'swarm': case 'acid': case 'bigsting': case 'beam': case 'bombs': case 'swarmhop': case 'boomer': return d < 450;
+      case 'blink': return d > 160;
+      case 'superjump': return d > 120 && d < 500;
+      case 'shell': return d < 120 && f.hp / f.maxHp < 0.75;
+      default: return true;
+    }
   }
 
   function update(dt) {
@@ -1497,18 +1705,34 @@
     G.minions = G.minions.filter(function (m) { return !m.dead; });
 
     G.projs.forEach(function (p) {
-      p.life -= dt;
-      if (p.homing && p.owner.foe && !p.owner.foe.dead) {
-        var e = p.owner.foe, cur = Math.atan2(p.vy, p.vx), want = Math.atan2(e.y - p.y, e.x - p.x), sp = Math.hypot(p.vx, p.vy);
+      p.life -= dt; p.age += dt;
+      var ow = p.owner;
+      if (p.kind === 'boomer' && p.age > 0.55) {
+        if (!p.back) { p.back = true; p.hits = []; }
+        var cur0 = Math.atan2(p.vy, p.vx), want0 = Math.atan2(ow.y - p.y, ow.x - p.x), sp0 = Math.hypot(p.vx, p.vy);
+        cur0 += clamp(angDiff(cur0, want0), -9 * dt, 9 * dt); p.vx = Math.cos(cur0) * sp0; p.vy = Math.sin(cur0) * sp0;
+        if (Math.hypot(ow.x - p.x, ow.y - p.y) < ow.r + 6) p.life = 0;
+      } else if (p.homing && ow.foe && !ow.foe.dead) {
+        var e = ow.foe, cur = Math.atan2(p.vy, p.vx), want = Math.atan2(e.y - p.y, e.x - p.x), sp = Math.hypot(p.vx, p.vy);
         cur += clamp(angDiff(cur, want), -p.homing * dt, p.homing * dt); p.vx = Math.cos(cur) * sp; p.vy = Math.sin(cur) * sp;
-        if (Math.random() < 0.6) G.parts.push({ x: p.x, y: p.y, vx: 0, vy: 0, t: 0.35, max: 0.35, col: 'rgba(200,200,210,0.7)', r: 4 });
+        if (p.kind === 'missile' && Math.random() < 0.6) G.parts.push({ x: p.x, y: p.y, vx: 0, vy: 0, t: 0.35, max: 0.35, col: 'rgba(200,200,210,0.7)', r: 4 });
       }
       p.x += p.vx * dt; p.y += p.vy * dt;
-      if (p.x < WALL || p.x > W - WALL || p.y < WALL || p.y > H - WALL) { p.life = 0; burst(p.x, p.y, p.col, 4, 100, 3); }
-      G.obs.forEach(function (o) { if (p.life > 0 && Math.hypot(p.x - o.x, p.y - o.y) < o.r + p.r) { p.life = 0; burst(p.x, p.y, p.col, 4, 100, 3); } });
-      if (p.life > 0) enemiesOf(p.owner).forEach(function (t) {
-        if (p.life > 0 && Math.hypot(t.x - p.x, t.y - p.y) < t.r + p.r) { p.life = 0; hurt(p.owner, t, p.dmg, Math.atan2(p.vy, p.vx), p.kb, { ranged: true }); }
+      if (p.kind === 'boomer') { p.x = clamp(p.x, WALL, W - WALL); p.y = clamp(p.y, WALL, H - WALL); }
+      else {
+        if (p.x < WALL || p.x > W - WALL || p.y < WALL || p.y > H - WALL) { p.life = 0; burst(p.x, p.y, p.col, 4, 100, 3); }
+        G.obs.forEach(function (o) { if (p.life > 0 && Math.hypot(p.x - o.x, p.y - o.y) < o.r + p.r) { p.life = 0; burst(p.x, p.y, p.col, 4, 100, 3); } });
+      }
+      if (p.life > 0) enemiesOf(ow).forEach(function (t) {
+        if (p.life <= 0 || Math.hypot(t.x - p.x, t.y - p.y) >= t.r + p.r) return;
+        if (p.pierce) { if (p.hits.indexOf(t) >= 0) return; p.hits.push(t); } else p.life = 0;
+        if (p.explode) return;
+        if (hurt(ow, t, p.dmg, Math.atan2(p.vy, p.vx), p.kb, { ranged: true })) {
+          if (p.slow) { t.slow = Math.max(t.slow || 0, p.slow); if (!t.minion) addText(t.x, t.y - 44, '끈적끈적!', '#c8ff6a', 18); }
+          if (p.stun) { t.stun = Math.max(t.stun || 0, p.stun); }
+        }
       });
+      if (p.life <= 0 && p.explode && !p.boomed) { p.boomed = true; boom(p); }
     });
     G.projs = G.projs.filter(function (p) { return p.life > 0; });
     G.picks.forEach(function (p) { p.t += dt; p.life -= dt; });
@@ -1578,7 +1802,9 @@
     if (G && !paused) {
       var pvp = G.mode === 'pvp';
       if (e.code === 'KeyG' || (!pvp && e.code === 'KeyK')) G.fighters[0].in.sk = true;
+      if (e.code === 'KeyH' || (!pvp && e.code === 'KeyL')) G.fighters[0].in.sk2 = true;
       if (pvp && e.code === 'KeyL') G.fighters[1].in.sk = true;
+      if (pvp && (e.code === 'Semicolon' || e.code === 'Slash')) G.fighters[1].in.sk2 = true;
       if (/Arrow|Space/.test(e.code)) e.preventDefault();
     }
   });
@@ -1617,18 +1843,22 @@
       var joy = document.createElement('div'); joy.className = 'joy'; joy.innerHTML = '<i></i>'; joy.hidden = true;
       var atk = document.createElement('button'); atk.className = 'tb atk'; atk.textContent = '👊';
       var sk = document.createElement('button'); sk.className = 'tb sk'; sk.innerHTML = G.fighters[i].ins.skill.icon + '<span class="cdm"></span>';
+      var sk2 = document.createElement('button'); sk2.className = 'tb sk sk2'; sk2.innerHTML = G.fighters[i].ins.skill2.icon + '<span class="cdm"></span>';
       if (!pvp) {
         zone.style.cssText = 'left:0;top:0;bottom:0;width:55%';
         atk.style.cssText = 'right:calc(24px + var(--safeR));bottom:calc(26px + var(--safeB))';
-        sk.style.cssText = 'right:calc(116px + var(--safeR));bottom:calc(70px + var(--safeB))';
+        sk.style.cssText = 'right:calc(116px + var(--safeR));bottom:calc(24px + var(--safeB))';
+        sk2.style.cssText = 'right:calc(30px + var(--safeR));bottom:calc(116px + var(--safeB))';
       } else if (i === 0) {
         zone.style.cssText = 'left:0;top:35%;bottom:0;width:30%';
-        atk.style.cssText = 'left:calc(14px + var(--safeL));top:calc(60px + var(--safeT))';
-        sk.style.cssText = 'left:calc(100px + var(--safeL));top:calc(66px + var(--safeT))';
+        atk.style.cssText = 'left:calc(14px + var(--safeL));top:calc(64px + var(--safeT))';
+        sk.style.cssText = 'left:calc(100px + var(--safeL));top:calc(70px + var(--safeT))';
+        sk2.style.cssText = 'left:calc(176px + var(--safeL));top:calc(70px + var(--safeT))';
       } else {
         zone.style.cssText = 'right:0;top:35%;bottom:0;width:30%';
-        atk.style.cssText = 'right:calc(14px + var(--safeR));top:calc(60px + var(--safeT))';
-        sk.style.cssText = 'right:calc(100px + var(--safeR));top:calc(66px + var(--safeT))';
+        atk.style.cssText = 'right:calc(14px + var(--safeR));top:calc(64px + var(--safeT))';
+        sk.style.cssText = 'right:calc(100px + var(--safeR));top:calc(70px + var(--safeT))';
+        sk2.style.cssText = 'right:calc(176px + var(--safeR));top:calc(70px + var(--safeT))';
       }
       var cx = 0, cy = 0;
       zone.addEventListener('pointerdown', function (e) {
@@ -1650,8 +1880,10 @@
       ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (ev) { atk.addEventListener(ev, function () { ts.atk = false; atk.classList.remove('down'); }); });
       sk.addEventListener('pointerdown', function (e) { e.preventDefault(); if (G) G.fighters[i].in.sk = true; sk.classList.add('down'); });
       ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (ev) { sk.addEventListener(ev, function () { sk.classList.remove('down'); }); });
-      ts.skEl = sk;
-      box.appendChild(zone); box.appendChild(joy); box.appendChild(atk); box.appendChild(sk);
+      sk2.addEventListener('pointerdown', function (e) { e.preventDefault(); if (G) G.fighters[i].in.sk2 = true; sk2.classList.add('down'); });
+      ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (ev) { sk2.addEventListener(ev, function () { sk2.classList.remove('down'); }); });
+      ts.skEl = sk; ts.sk2El = sk2;
+      box.appendChild(zone); box.appendChild(joy); box.appendChild(atk); box.appendChild(sk); box.appendChild(sk2);
     })(i);
   }
   function cleanupTouch() { $('touch').hidden = true; $('touch').innerHTML = ''; touchState = [null, null]; $('pauseBtn').hidden = true; $('keys').hidden = true; $('pause').hidden = true; }
@@ -1781,7 +2013,8 @@
     var sh = new T.Mesh(GEO.sph, basicMat('shellS', 0xffe070, 0.28)); sh.scale.setScalar(40); sh.position.y = 14; root.add(sh);
     var sd = new T.Mesh(GEO.sph, basicMat('shieldS', 0x9fd0ff, 0.25)); sd.scale.setScalar(36); sd.position.y = 14; root.add(sd);
     var sp = new T.Mesh(GEO.ring, basicMat('spinT', 0xc8ffc8, 0.7)); sp.scale.set(62, 40, 62); sp.position.y = 10; root.add(sp);
-    f.X = { ring: ring, shell: sh, shield: sd, spin: sp };
+    var au = new T.Mesh(GEO.ring, basicMat('aura', 0xffc83d, 0.8)); au.scale.set(40, 60, 40); au.position.y = 2; root.add(au);
+    f.X = { ring: ring, shell: sh, shield: sd, spin: sp, aura: au };
   }
 
   function projMesh(p) {
@@ -1790,6 +2023,19 @@
       var b = add(g, GEO.cyl, basicMat('mis', 0xe04848), 0, 0, 0, 2.6, 13, 2.6); b.rotation.z = Math.PI / 2;
       var nose = add(g, GEO.cone, basicMat('misN', 0xd9dde5), 9, 0, 0, 2.6, 5, 2.6); nose.rotation.z = -Math.PI / 2;
       var fl = add(g, GEO.cone, basicMat('misF', 0xffb030), -9, 0, 0, 2.2, 7, 2.2); fl.rotation.z = Math.PI / 2;
+    } else if (p.kind === 'bomb') {
+      add(g, GEO.sph, basicMat('bombB', 0x2a2a33), 0, 0, 0, 7);
+      add(g, GEO.sph, basicMat('bombS', 0xe8352f), 0, 0, 0, 7.3, 3, 7.3);
+      add(g, GEO.sph, basicMat('bombF', 0xffd23a), 0, 8, 0, 2.2);
+    } else if (p.kind === 'boomer') {
+      var bl = new T.Group(); g.add(bl); g.userData.spinner = bl;
+      add(bl, GEO.box, basicMat('boomA', 0xe6ecf3), 0, 0, 0, 24, 2, 4);
+      add(bl, GEO.box, basicMat('boomB', 0x5fbf3f), 0, 0, 0, 4, 2.2, 24);
+    } else if (p.kind === 'hopper') {
+      var hb = new T.Group(); g.add(hb); g.userData.hop = hb;
+      add(hb, GEO.sph, basicMat('hopB', 0x7ed957), 0, 0, 0, 7, 3.5, 3.5);
+      add(hb, GEO.sph, basicMat('hopE', 0x6ff0ff), 6, 1.5, 0, 2, 2, 2);
+      rod(hb, basicMat('hopL', 0x3f7a22), [-1, 0, -3], [-8, 5, -5], 0.9); rod(hb, basicMat('hopL', 0x3f7a22), [-1, 0, 3], [-8, 5, 5], 0.9);
     } else if (p.kind === 'wind') {
       var w = new T.Mesh(sharedGeo('windArc', function () { return new T.TorusGeometry(10, 1.6, 6, 16, 2.4).rotateX(Math.PI / 2).rotateY(1.2).translate(-6, 0, 0); }), basicMat('wind', 0xe0f6ff, 0.85));
       g.add(w);
@@ -1816,9 +2062,10 @@
     G.fighters.forEach(function (f) {
       if (!f.R) { f.R = buildBot(f.build); f.R.root.scale.setScalar(f.sc); fighterExtras(f); GL.dyn.add(f.R.root); }
       var R = f.R; keep(R.root);
-      R.root.position.set(f.x, 0, f.y); R.root.rotation.y = -f.ang;
+      R.root.position.set(f.x, f.z || 0, f.y); R.root.rotation.y = -f.ang; R.root.scale.setScalar(f.sc);
       if (f.dead) { f.deadT = (f.deadT || 0) + dt; var k = Math.min(1, f.deadT * 2.5); R.body.rotation.x = k * 1.5; R.body.position.y = k * 6; }
-      animBot(R, { t: G.t, walk: f.walk, moving: f.moving && !f.dead, swing: f.swing, charge: f.charge, spin: f.spin, grab: f.grab, laserGlow: f.laserGlow, flash: f.flash, misReady: f.misReady });
+      animBot(R, { t: G.t, walk: f.walk, moving: f.moving && !f.dead, swing: f.swing, charge: f.charge, spin: f.spin, grab: f.grab, laserGlow: f.laserGlow, flash: f.flash, misReady: f.misReady, mega: f.megaK, air: f.z > 1 ? 1 : 0, dead: f.dead });
+      f.X.aura.visible = f.robotT > 0 && !f.dead; f.X.aura.rotation.y = G.t * 3; f.X.aura.scale.set(40 + Math.sin(G.t * 8) * 3, 60, 40 + Math.sin(G.t * 8) * 3);
       f.X.ring.visible = !f.dead;
       f.X.shell.visible = f.inv > 0 && f.shellT > 0;
       f.X.shield.visible = f.attach.shield > 0;
@@ -1832,6 +2079,9 @@
     G.projs.forEach(function (p) {
       if (!p.mesh) { p.mesh = projMesh(p); GL.dyn.add(p.mesh); }
       keep(p.mesh); p.mesh.position.set(p.x, 16, p.y); p.mesh.rotation.y = -Math.atan2(p.vy, p.vx);
+      if (p.mesh.userData.spinner) p.mesh.userData.spinner.rotation.y = p.age * 20;
+      if (p.mesh.userData.hop) p.mesh.position.y = 6 + Math.abs(Math.sin(p.age * 11)) * 18;
+      if (p.kind === 'bomb') p.mesh.position.y = 8 + Math.sin(Math.min(1, p.age / 0.75) * Math.PI) * 40;
     });
     G.picks.forEach(function (p) {
       if (!p.mesh) { p.mesh = pickMesh(p); GL.dyn.add(p.mesh); }
@@ -1843,8 +2093,18 @@
       if (!b.mesh) {
         b.mesh = new T.Group();
         if (b.kind === 'laser') {
-          rod(b.mesh, basicMat('las', 0xffd0d0), [b.x1, 18, b.y1], [b.x2, 16, b.y2], 1.4);
-          rod(b.mesh, basicMat('lasO', 0xff3030, 0.45), [b.x1, 18, b.y1], [b.x2, 16, b.y2], 4);
+          var lw = b.w || 1;
+          rod(b.mesh, basicMat('las' + (b.col || ''), b.col ? 0xffffff : 0xffd0d0), [b.x1, 18, b.y1], [b.x2, 16, b.y2], 1.4 * lw);
+          rod(b.mesh, basicMat('lasO' + (b.col || ''), b.col || 0xff3030, 0.45), [b.x1, 18, b.y1], [b.x2, 16, b.y2], 4 * lw);
+        } else if (b.kind === 'ring') {
+          var rg = new T.Mesh(GEO.ring, basicMat('ring' + b.col, b.col, 0.8)); rg.position.set(b.x, 3, b.y); b.mesh.add(rg); b.mesh.userData.ring = rg;
+        } else if (b.kind === 'boom') {
+          var bs = add(b.mesh, GEO.sph, basicMat('boomS', 0xff9a3d, 0.5), b.x, 14, b.y, 10); bs.castShadow = false; b.mesh.userData.boom = bs;
+        } else if (b.kind === 'pillar') {
+          var pl = add(b.mesh, GEO.cyl, basicMat('pillar', 0xffe070, 0.35), b.x, 200, b.y, 45, 400, 45); pl.castShadow = false; b.mesh.userData.pillar = pl;
+        } else if (b.kind === 'gust') {
+          var gg = new T.Group(); gg.position.set(b.x, 14, b.y); gg.rotation.y = -b.ang; b.mesh.add(gg);
+          var cn = add(gg, GEO.cone, basicMat('gust', 0xe6f6ff, 0.3), 110, 0, 0, 100, 200, 100); cn.rotation.z = Math.PI / 2; cn.castShadow = false;
         } else {
           var s = add(b.mesh, GEO.sph, basicMat('flashS', 0xffffc0, 0.5), b.x, 10, b.y, 30); s.castShadow = false; b.mesh.userData.s = s;
         }
@@ -1852,6 +2112,10 @@
       }
       keep(b.mesh);
       if (b.mesh.userData.s) { var k2 = 1 - b.t / 0.4; b.mesh.userData.s.scale.setScalar(30 + k2 * 150); }
+      var kb = b.max ? 1 - b.t / b.max : 0;
+      if (b.mesh.userData.ring) { var rr2 = 15 + kb * b.r; b.mesh.userData.ring.scale.set(rr2, 80, rr2); }
+      if (b.mesh.userData.boom) b.mesh.userData.boom.scale.setScalar(10 + kb * b.r);
+      if (b.mesh.userData.pillar) { var pw = 45 * (1 - kb * 0.8); b.mesh.userData.pillar.scale.set(pw, 400, pw); }
     });
     GL.dyn.children.slice().forEach(function (o) { if (o.userData.seen !== fr) { GL.dyn.remove(o); disposeObj(o); } });
     G.obs.forEach(function (o) { if (o.mesh && o.mesh.userData.spin) o.mesh.rotation.y += dt * 0.6; });
@@ -1920,19 +2184,29 @@
     drawHud(c);
   }
 
+  function gauge(c, x, y, w, h, k, colA, colB, right) {
+    c.fillStyle = 'rgba(0,0,0,0.45)'; c.beginPath(); c.roundRect(x - 1, y - 1, w + 2, h + 2, 4); c.fill();
+    c.fillStyle = k >= 1 ? colA : colB; c.beginPath(); c.roundRect(right ? x + w - w * k : x, y, Math.max(0.1, w * k), h, 3); c.fill();
+  }
   function hpBar(c, x, y, w, f, right) {
     var h = 16, r = clamp(f.hp / f.maxHp, 0, 1);
     c.fillStyle = 'rgba(0,0,0,0.45)'; c.beginPath(); c.roundRect(x - 2, y - 2, w + 4, h + 4, 10); c.fill();
     c.fillStyle = r > 0.5 ? '#5fd46a' : r > 0.25 ? '#ffc93d' : '#ff5d5d';
     var bw = w * r; c.beginPath(); c.roundRect(right ? x + w - bw : x, y, Math.max(0.1, bw), h, 8); c.fill();
     if (f.attach && f.attach.shield > 0 && f.shieldHp > 0) { c.fillStyle = 'rgba(160,210,255,0.85)'; var sw = w * f.shieldHp / f.maxHp; c.fillRect(right ? x + w - bw - sw : x + bw, y + 3, sw, h - 6); }
-    var k = clamp(1 - f.skT / f.skMax, 0, 1), gw = w * 0.6;
-    c.fillStyle = 'rgba(0,0,0,0.45)'; c.beginPath(); c.roundRect(right ? x + w - gw - 2 : x, y + h + 4, gw + 2, 7, 4); c.fill();
-    c.fillStyle = k >= 1 ? '#a8b6ff' : '#6672c8'; c.beginPath(); c.roundRect(right ? x + w - gw * k - 1 : x + 1, y + h + 5, Math.max(0.1, gw * k), 5, 3); c.fill();
+    var k1 = clamp(1 - f.skT / f.skMax, 0, 1), k2 = clamp(1 - f.sk2T / f.sk2Max, 0, 1), gw = w * 0.29;
+    var gx1 = right ? x + w - gw : x, gx2 = right ? x + w - gw * 2 - 6 : x + gw + 6;
+    gauge(c, gx1, y + h + 4, gw, 5, k1, '#a8b6ff', '#6672c8', right);
+    gauge(c, gx2, y + h + 4, gw, 5, k2, '#e0a8ff', '#9a5ac8', right);
+    // 로봇 게이지
+    var pk = clamp(f.power / 100, 0, 1), pw = gw * 2 + 6, robot = f.robotT > 0;
+    var pc = robot ? (Math.sin(G.t * 12) > 0 ? '#ffe36b' : '#ffb020') : '#ff9a3d';
+    gauge(c, right ? x + w - pw : x, y + h + 12, pw, 6, pk, pc, pc, right);
     c.font = '15px Jua, sans-serif'; c.textBaseline = 'top'; c.textAlign = right ? 'right' : 'left';
     c.lineWidth = 3; c.strokeStyle = 'rgba(0,0,0,0.45)';
-    var label = f.name + ' · ' + INSECTS[f.insect].name + (k >= 1 ? '  ' + f.ins.skill.icon + ' 기술 준비!' : '');
-    c.strokeText(label, right ? x + w : x, y + h + 13); c.fillStyle = '#fff'; c.fillText(label, right ? x + w : x, y + h + 13);
+    var ready = (k1 >= 1 ? f.ins.skill.icon : '') + (k2 >= 1 ? f.ins.skill2.icon : '');
+    var label = f.name + ' · ' + INSECTS[f.insect].name + (robot ? '  🤖 메가 로봇!' : '  🤖 ' + Math.floor(pk * 100) + '%') + (ready ? '  ' + ready : '');
+    c.strokeText(label, right ? x + w : x, y + h + 21); c.fillStyle = robot ? '#ffe36b' : '#fff'; c.fillText(label, right ? x + w : x, y + h + 21);
   }
 
   function drawHud(c) {
@@ -1943,8 +2217,9 @@
     c.lineWidth = 4; c.strokeStyle = 'rgba(0,0,0,0.5)';
     var tt = String(Math.ceil(G.time)); c.strokeText(tt, cw / 2, top - 2); c.fillStyle = G.time < 10 ? '#ff8a8a' : '#fff'; c.fillText(tt, cw / 2, top - 2);
     touchState.forEach(function (ts, i) {
-      if (!ts || !ts.skEl) return; var f = G.fighters[i], k = clamp(1 - f.skT / f.skMax, 0, 1);
+      if (!ts || !ts.skEl) return; var f = G.fighters[i], k = clamp(1 - f.skT / f.skMax, 0, 1), k2 = clamp(1 - f.sk2T / f.sk2Max, 0, 1);
       ts.skEl.lastChild.style.background = k >= 1 ? 'none' : 'conic-gradient(transparent ' + (k * 360) + 'deg, rgba(0,0,0,0.5) 0)';
+      ts.sk2El.lastChild.style.background = k2 >= 1 ? 'none' : 'conic-gradient(transparent ' + (k2 * 360) + 'deg, rgba(0,0,0,0.5) 0)';
     });
     c.textBaseline = 'middle';
     if (G.phase === 'count') {
@@ -1995,7 +2270,7 @@
     window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
   }
   // 테스트용
-  window.__bugbot = { S: S, start: startMatch, buildBot: buildBot, studioDraw: studioDraw, get G() { return G; } };
+  window.__bugbot = { S: S, start: startMatch, buildBot: buildBot, studioDraw: studioDraw, step: function (dt) { if (G) update(dt); }, doSkill: doSkill, get G() { return G; } };
   resize();
   show('title', true);
 })();
