@@ -1,7 +1,7 @@
 {
-  "name": "곤충 로봇 배틀",
+  "name": "곤충 로봇 배틀 3D",
   "short_name": "곤충 로봇",
-  "description": "곤충에 로봇 아이템을 붙여서 싸우는 배틀 게임",
+  "description": "곤충에 로봇 아이템을 붙여서 싸우는 3D 배틀 게임",
   "start_url": "./",
   "scope": "./",
   "display": "fullscreen",
